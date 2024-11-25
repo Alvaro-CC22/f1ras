@@ -28,17 +28,17 @@ export interface Circuito {
     pilotoRecordId?: number;
 }
 
-export interface Equipo {
-    id: number;
-    nombre: string;
-    pais: number;
-    base: string;
-    fechaInauguracion: string;
-    pilotoId?: number;
-    campeonatos: number;
-    carreras: number;
-    victorias: number;
-    podios: number;
-    poles: number;
-    vueltasRapidas: number;
-}
+    export interface Equipo {
+        id: number;
+        nombre: string;
+        pais: number;
+        base: string;
+        fechaInauguracion: string;
+        pilotoId?: number;
+        campeonatos: number;
+        carreras: number;
+        victorias: number;
+        podios: number;
+        poles: number;
+        vueltasRapidas: number;
+    }

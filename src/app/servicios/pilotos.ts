@@ -1,60 +1,65 @@
-import { useState } from "react";
-import { Piloto } from "../lib/definitions";
-
-const url = "http://ergast.com/api/f1/";
-
-
-export default function buscaPilotos() {
-    const [pilotos, setPilotos] = useState<Piloto[]>([]);
-
-const fetchF1drivers = async () => {
+export const obtenerResultados = async (
+    driverId: string,
+    anio: number
+  ): Promise<{ victorias: number; podios: number; puntos: number; equipo: string }> => {
     try {
-      const response = await fetch('http://ergast.com/api/f1/2024/drivers');
-      const data = await response.json();
-      console.log(data);
+      const urlResultados = `https://ergast.com/api/f1/${anio}/drivers/${driverId}/results.json`;
+      const urlSprint = `https://ergast.com/api/f1/${anio}/drivers/${driverId}/sprint.json`;
+  
+      const [resultadosResponse, sprintResponse] = await Promise.all([
+        fetch(urlResultados),
+        fetch(urlSprint),
+      ]);
+  
+      const dataResultados = await resultadosResponse.json();
+      const dataSprint = await sprintResponse.json();
+  
+      let victorias = 0;
+      let podios = 0;
+      let puntos = 0;
+      let equipo = '';
+  
+      // Procesar carreras regulares
+      if (dataResultados.MRData.RaceTable?.Races) {
+        dataResultados.MRData.RaceTable.Races.forEach((race: any) => {
+          race.Results.forEach((result: any) => {
+            const posicion = parseInt(result.position);
+            if (posicion === 1) victorias++;
+            if ([1, 2, 3].includes(posicion)) podios++;
+            puntos += result.points ? parseFloat(result.points) : 0;
+            if (!equipo && result.Constructor) equipo = result.Constructor.name;
+          });
+        });
+      }
+  
+      // Procesar carreras sprint
+      if (dataSprint.MRData.RaceTable?.Races) {
+        dataSprint.MRData.RaceTable.Races.forEach((race: any) => {
+          race.SprintResults.forEach((sprintResult: any) => {
+            if (sprintResult.points) {
+              puntos += parseFloat(sprintResult.points);
+            }
+          });
+        });
+      }
+  
+      return { victorias, podios, puntos, equipo };
     } catch (error) {
-      console.error('Error fetching F1 data:', error);
+      console.error(`Error al obtener resultados para ${driverId} en ${anio}:`, error);
+      return { victorias: 0, podios: 0, puntos: 0, equipo: 'Desconocido' };
     }
   };
   
-  fetchF1drivers();
-}
-
-const obtenerPilotos2024 = async (): Promise<Piloto[]> => {
-    const url = "http://ergast.com/api/f1/2024/drivers.json";
+  export const obtenerPilotosPorAnio = async (anio: number): Promise<any[]> => {
+    const url = `https://ergast.com/api/f1/${anio}/drivers.json`;
   
     try {
       const response = await fetch(url);
       const data = await response.json();
-      const pilotos = data.MRData.DriverTable.Drivers;
-  
-      return pilotos.map((piloto: any, index: number): Piloto => {
-        const nacimiento = new Date(piloto.dateOfBirth);
-        const edad = new Date().getFullYear() - nacimiento.getFullYear();
-  
-        return {
-          id: index + 1,
-          nombre: `${piloto.givenName} ${piloto.familyName}`,
-          acronimo: piloto.code || "N/A",
-          edad: edad,
-          fechaNacimiento: piloto.dateOfBirth,
-          numeroPiloto: parseInt(piloto.permanentNumber || "0"),
-          equipoId: undefined, // Este dato no está disponible en Ergast
-          temporadas: 1, // Ajustar según información adicional
-          campeonatos: 0, // Ajustar según información adicional
-          victorias: 0, // Ajustar según información adicional
-          poles: 0, // Ajustar según información adicional
-          vueltasRecord: 0, // Ajustar según información adicional
-          vueltasRecordId: undefined,
-          retirado: false, // Asumido activo en 2024
-        };
-      });
+      return data.MRData.DriverTable.Drivers;
     } catch (error) {
       console.error("Error al obtener los pilotos:", error);
       return [];
     }
   };
-  
-  // Ejemplo de uso
-  obtenerPilotos2024().then((pilotos) => console.log(pilotos));
   
