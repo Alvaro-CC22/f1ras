@@ -17,16 +17,24 @@ export interface Piloto {
 }
 
 export interface Circuito {
-    id: number;
+    id: string; 
     nombre: string;
-    pais: number;
+    pais: string; 
     fechaInauguracion: string;
     tipo: string;
     longitud: number;
     curvas: number;
     capacidad: number;
     pilotoRecordId?: number;
-}
+    ultimoGanador: string | null;
+    anioUltimoGanador: string | null;
+    vueltaRapida: string | null;
+    anioVueltaRapida: string | null;
+    tiempoVueltaRapida: string | null; 
+    imagen: string; 
+    bandera: string; 
+  }
+  
 
     export interface Equipo {
         id: number;
