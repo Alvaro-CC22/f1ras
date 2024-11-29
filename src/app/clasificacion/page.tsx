@@ -30,7 +30,7 @@ export default function Home() {
             edad: edad,
             fechaNacimiento: piloto.dateOfBirth,
             numeroPiloto: parseInt(piloto.permanentNumber || "0"),
-            equipo: equipo,
+            equipoId: equipo,
             temporadas: 1,
             campeonatos: 0,
             victorias: victorias,
@@ -81,7 +81,7 @@ export default function Home() {
         {/* Tabla de pilotos */}
         <div style={{ flex: 1 }}>
         <Link href={`/clasificacion/pilotos`}><h2>Clasificación de Pilotos</h2></Link>
-          <table border="1" style={{ width: "100%", textAlign: "left" }}>
+          <table style={{ width: "100%", textAlign: "left" }}>
             <thead>
               <tr>
                 <th>Pos.</th>
@@ -99,7 +99,7 @@ export default function Home() {
                     <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
                   </td>
                   <td>{piloto.numeroPiloto}</td>
-                  <td>{piloto.equipo}</td>
+                  <td>{piloto.equipoId}</td>
                   <td>{piloto.puntos}</td>
                 </tr>
               ))}
@@ -110,7 +110,7 @@ export default function Home() {
         {/* Tabla de equipos */}
         <div style={{ flex: 1 }}>
         <Link href={`/clasificacion/equipos`}><h2>Clasificación de Constructores</h2></Link>
-          <table border="1" style={{ width: "100%", textAlign: "left" }}>
+          <table style={{ width: "100%", textAlign: "left" }}>
             <thead>
               <tr>
                 <th>Pos.</th>

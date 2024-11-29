@@ -63,7 +63,7 @@ const Equipos = () => {
   }, [anio]); // Dependencia del año, recarga cuando cambia el año
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div><Navbar />Cargando...</div>;
   }
 
   return (
@@ -95,8 +95,6 @@ const Equipos = () => {
           <tr>
             <th style={{ width: "30%" }}>Nombre</th>
             <th style={{ width: "15%" }}>Pais</th>
-            <th style={{ width: "15%" }}>Base</th>
-            <th style={{ width: "10%" }}>Año Inauguracion</th>
             <th style={{ width: "20%" }}>Pilotos</th>
           </tr>
         </thead>
@@ -115,8 +113,6 @@ const Equipos = () => {
                 </Link>
               </td>
               <td>{equipo.pais}</td>
-              <td>{equipo.base}</td>
-              <td>{equipo.fechaInauguracion}</td>
               <td>
                 {equipo.pilotos.map((piloto) => (
                   <div key={piloto.id}>

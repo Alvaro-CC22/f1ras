@@ -110,7 +110,7 @@ const Circuitos = () => {
   }, [anio]); // Ejecutar cada vez que el año cambie
 
   if (loading) {
-    return <div>Cargando circuitos...</div>;
+    return <div><Navbar />Cargando circuitos...</div>;
   }
 
   return (

@@ -31,7 +31,7 @@ export default function Home() {
             edad: edad,
             fechaNacimiento: piloto.dateOfBirth,
             numeroPiloto: parseInt(piloto.permanentNumber || "0"),
-            equipo: equipo,
+            equipoId: equipo,
             temporadas: 1,
             campeonatos: 0,
             victorias: victorias,
@@ -70,7 +70,7 @@ export default function Home() {
           ))}
         </select>
       </div>
-      <table border="1" style={{ width: "100%", textAlign: "left" }}>
+      <table style={{ width: "100%", textAlign: "left" }}>
         <thead>
           <tr>
             <th>Pos.</th>
@@ -90,7 +90,7 @@ export default function Home() {
                 <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
               </td>
               <td>{piloto.numeroPiloto}</td>
-              <td>{piloto.equipo}</td>
+              <td>{piloto.equipoId}</td>
               <td>{piloto.victorias}</td>
               <td>{piloto.podios}</td>
               <td>{piloto.puntos}</td>

@@ -1,103 +1,72 @@
 "use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Piloto } from "../../lib/definitions";
-import { añosDisponibles } from "../../lib/const";
-import { obtenerPilotosPorAnio, obtenerResultados } from "../../servicios/pilotos";
-import Navbar from "../../componentes/navbar";
 
-export default function Home() {
-  const [pilotos, setPilotos] = useState<Piloto[]>([]);
-  const [anio, setAnio] = useState<number>(2024); // Año predeterminado
+import { useEffect, useState } from "react";
+import Navbar from './../../componentes/navbar';
+import { obtenerClasificacionConstructores } from './../../servicios/equipos';
+
+const ITEMS_POR_PAGINA = 10;
+
+export default function ClasificacionConstructores() {
+  const [clasificacion, setClasificacion] = useState<any[]>([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [anio, setAnio] = useState(2024); // El año que se desea mostrar
 
   useEffect(() => {
-    const cargarDatosPilotos = async () => {
-      const pilotosBase = await obtenerPilotosPorAnio(anio);
+    // Mostrar loading mientras se obtienen los datos
+    setLoading(true);
 
-      const pilotosConDatos = await Promise.all(
-        pilotosBase.map(async (piloto: any, index: number): Promise<Piloto> => {
-          const nacimiento = new Date(piloto.dateOfBirth);
-          const edad = new Date().getFullYear() - nacimiento.getFullYear();
+    const cargarClasificacion = async () => {
+      const clasificacionData = await obtenerClasificacionConstructores(anio);
 
-          const { victorias, podios, puntos, equipo } = await obtenerResultados(
-            piloto.driverId,
-            anio
-          );
+      if (clasificacionData.length > 0) {
+        setClasificacion(clasificacionData);
+        setTotal(clasificacionData.length);
+      }
 
-          return {
-            id: index + 1,
-            nombre: `${piloto.givenName} ${piloto.familyName}`,
-            acronimo: piloto.code || "N/A",
-            edad: edad,
-            fechaNacimiento: piloto.dateOfBirth,
-            numeroPiloto: parseInt(piloto.permanentNumber || "0"),
-            equipo: equipo,
-            temporadas: 1,
-            campeonatos: 0,
-            victorias: victorias,
-            podios: podios,
-            puntos: puntos,
-            poles: 0,
-            vueltasRecord: 0,
-            vueltasRecordId: undefined,
-            retirado: false,
-          };
-        })
-      );
-
-      pilotosConDatos.sort((a, b) => b.puntos - a.puntos);
-      setPilotos(pilotosConDatos);
+      setLoading(false);
     };
 
-    cargarDatosPilotos();
-  }, [anio]);
+    cargarClasificacion();
+  }, [anio, paginaActual]);
+
+  const inicio = (paginaActual - 1) * ITEMS_POR_PAGINA;
+  const fin = inicio + ITEMS_POR_PAGINA;
+  const clasificacionPaginada = clasificacion.slice(inicio, fin);
+  const totalPaginas = Math.ceil(total / ITEMS_POR_PAGINA);
 
   return (
     <div>
-      <Navbar></Navbar>
-      <h1>Pilotos de F1 - Temporada {anio}</h1>
-      <div>
-        <label htmlFor="anio">Seleccionar Año:</label>
-        <select
-          id="anio"
-          value={anio}
-          onChange={(e) => setAnio(parseInt(e.target.value))}
-        >
-          {Object.keys(añosDisponibles).map((year) => (
-            <option key={year} value={year}>
-              {añosDisponibles[parseInt(year)]}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Navbar />
+      <h1>Clasificación de Constructores ({anio})</h1>
       <table border="1" style={{ width: "100%", textAlign: "left" }}>
         <thead>
           <tr>
-            <th>Pos.</th>
-            <th>Nombre</th>
-            <th>Número de Piloto</th>
-            <th>Equipo</th>
+            <th>Posición</th>
+            <th>Nombre del Equipo</th>
             <th>Victorias</th>
-            <th>Podios</th>
             <th>Puntos</th>
           </tr>
         </thead>
         <tbody>
-          {pilotos.map((piloto, index) => (
-            <tr key={piloto.id}>
-              <td>{index + 1}</td>
-              <td>
-                <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
-              </td>
-              <td>{piloto.numeroPiloto}</td>
-              <td>{piloto.equipo}</td>
-              <td>{piloto.victorias}</td>
-              <td>{piloto.podios}</td>
-              <td>{piloto.puntos}</td>
+          {loading ? (
+            <tr>
+              <td colSpan={4}>Cargando...</td>
             </tr>
-          ))}
+          ) : (
+            clasificacionPaginada.map((constructor, index) => (
+              <tr key={index}>
+                <td>{constructor.posicion}</td>
+                <td>{constructor.nombre}</td>
+                <td>{constructor.victorias}</td>
+                <td>{constructor.puntos}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
+
     </div>
   );
 }

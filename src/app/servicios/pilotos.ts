@@ -63,3 +63,25 @@ export const obtenerResultados = async (
     }
   };
   
+  export const obtenerEquipoDePiloto = async (anio: number, driverId: string) => {
+    try {
+      const response = await fetch(`https://ergast.com/api/f1/${anio}/drivers/${driverId}/constructors.json`);
+      
+      if (!response.ok) {
+        throw new Error(`Error al obtener el equipo para el piloto ${driverId}`);
+      }
+      
+      const data = await response.json();
+  
+      // Si la respuesta contiene datos de constructores, devolvemos el nombre del equipo
+      const equipo = data.MRData.ConstructorTable.Constructors.length > 0
+        ? data.MRData.ConstructorTable.Constructors[0].name
+        : "Desconocido";
+      
+      return equipo;
+    } catch (error) {
+      console.error("Error en la solicitud de equipo", error);
+      return "Desconocido"; // Si hay error, devolvemos "Desconocido"
+    }
+  };
+  
