@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Piloto } from "../lib/definitions";
-import { añosDisponibles } from "../lib/const";
-import { obtenerPilotosPorAnio, obtenerResultados } from "../servicios/pilotos";
-import Navbar from "../componentes/navbar";
+import { Piloto } from "../../lib/definitions";
+import { añosDisponibles } from "../../lib/const";
+import { obtenerPilotosPorAnio, obtenerResultados } from "../../servicios/pilotos";
+import Navbar from "../../componentes/navbar";
 
 export default function Home() {
   const [pilotos, setPilotos] = useState<Piloto[]>([]);
