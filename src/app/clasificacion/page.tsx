@@ -21,7 +21,7 @@ export default function Home() {
           const nacimiento = new Date(piloto.dateOfBirth);
           const edad = new Date().getFullYear() - nacimiento.getFullYear();
 
-          const { victorias, podios, puntos, equipo } = await obtenerResultados(piloto.driverId, anio);
+          const { victorias, podios, puntos, equipo } = await obtenerResultados(piloto.id, anio);
 
           return {
             id: index + 1,
