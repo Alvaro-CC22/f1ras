@@ -40,7 +40,7 @@ export default function ClasificacionConstructores() {
     <div>
       <Navbar />
       <h1>Clasificación de Constructores ({anio})</h1>
-      <table border="1" style={{ width: "100%", textAlign: "left" }}>
+      <table style={{ width: "100%", textAlign: "left" }}>
         <thead>
           <tr>
             <th>Posición</th>

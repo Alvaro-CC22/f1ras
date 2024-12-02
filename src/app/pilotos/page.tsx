@@ -5,7 +5,6 @@ import { Piloto } from "../lib/definitions";
 import { añosDisponibles } from "../lib/const";
 import { obtenerEquipoDePiloto, obtenerPilotosPorAnio, obtenerResultados } from "../servicios/pilotos";
 import Navbar from "../componentes/navbar";
-import { obtenerClasificacionConstructores } from "../servicios/equipos";
 import { obtenerPaisDesdeNacionalidad } from "../lib/utils";
 
 export default function Home() {
@@ -20,21 +19,17 @@ export default function Home() {
         const pilotosBase = await obtenerPilotosPorAnio(anio);
 
         const pilotosConDatos = await Promise.all(
-          pilotosBase.map(async (piloto: any): Promise<Piloto> => {
-            const nacimiento = new Date(piloto.dateOfBirth);
-            const edad = anio - nacimiento.getFullYear();
+          pilotosBase.map(async (pilotoBase: Piloto): Promise<Piloto> => {
+            const { id, nombre, acronimo, pais, fechaNacimiento, numeroPiloto } = pilotoBase;
 
-            const equipo = await obtenerEquipoDePiloto(anio, piloto.driverId);
+            // Obtener equipo de cada piloto
+            const equipo = await obtenerEquipoDePiloto(anio, pilotoBase.id);
 
             return {
-              id: piloto.driverId,
-              nombre: `${piloto.givenName} ${piloto.familyName}`,
-              acronimo: piloto.code || "N/A",
-              edad: edad,
-              fechaNacimiento: piloto.dateOfBirth,
-              numeroPiloto: parseInt(piloto.permanentNumber || "0"),
+              ...pilotoBase,
+              edad: anio - new Date(fechaNacimiento).getFullYear(),
               equipoId: equipo,
-              pais: obtenerPaisDesdeNacionalidad(piloto.nationality), // Convertir a país
+              retirado: false, // Suponiendo que no está retirado para esta temporada
             };
           })
         );
@@ -54,18 +49,58 @@ export default function Home() {
     return (
       <div>
         <Navbar />
-        <p>Cargando...</p>
+        <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Pilotos de F1 - Temporada {anio}</h1>
+      <div>
+        <label htmlFor="anio" className="text-lg pt-5" style={{ fontFamily: 'titulos'}}>Seleccionar Año = </label>
+        <select
+        style={{ fontFamily: 'titulos'}}
+        className="text-lg pt-1"
+          id="anio"
+          value={anio}
+          onChange={(e) => setAnio(parseInt(e.target.value))}
+        >
+          {Object.keys(añosDisponibles).map((year) => (
+            <option key={year} value={year}>
+              {añosDisponibles[parseInt(year)]}
+            </option>
+          ))}
+        </select>
+      </div>
+      <table
+        className="table pt-1"
+        style={{
+          width: "100%",
+          textAlign: "left",
+          tableLayout: "fixed",
+        }}
+      >
+        <thead style={{ fontFamily: 'titulos'}}>
+        
+          <tr>
+            <th style={{ width: "20%" }}>Nombre</th>
+            <th style={{ width: "10%" }}>Acrónimo</th>
+            <th style={{ width: "15%" }}>País</th>
+            <th style={{ width: "10%" }}>Edad</th>
+            <th style={{ width: "20%" }}>Fecha de Nacimiento</th>
+            <th style={{ width: "10%" }}>Número Piloto</th>
+            <th style={{ width: "15%" }}>Equipo</th>
+          </tr>
+        </thead>
+        </table>
+        <p style={{ fontFamily: 'normal' }}>Cargando...</p>
       </div>
     );
   }
 
   return (
-    <div>
+    <div >
       <Navbar />
-      <h1>Pilotos de F1 - Temporada {anio}</h1>
-      <div>
-        <label htmlFor="anio">Seleccionar Año:</label>
+      <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Pilotos de F1 - Temporada {anio}</h1>
+      <div >
+        <label htmlFor="anio" className="text-lg pt-5" style={{ fontFamily: 'titulos'}}>Seleccionar Año = </label>
         <select
+        style={{ fontFamily: 'titulos'}}
+        className="text-lg pt-1"
           id="anio"
           value={anio}
           onChange={(e) => setAnio(parseInt(e.target.value))}
@@ -80,14 +115,15 @@ export default function Home() {
 
       {/* Tabla con todos los pilotos ordenados por equipo */}
       <table
-        className="table"
+        className="table pt-1"
         style={{
           width: "100%",
           textAlign: "left",
           tableLayout: "fixed",
         }}
       >
-        <thead>
+        <thead style={{ fontFamily: 'titulos'}}>
+        
           <tr>
             <th style={{ width: "20%" }}>Nombre</th>
             <th style={{ width: "10%" }}>Acrónimo</th>
@@ -98,20 +134,20 @@ export default function Home() {
             <th style={{ width: "15%" }}>Equipo</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ fontFamily: 'normal'}}>
           {pilotos
-            .sort((a, b) => a.equipoId.localeCompare(b.equipoId)) // Ordenar por equipo
+            .sort((a, b) => a.equipoId?.localeCompare(b.equipoId || "") || 0) // Ordenar por equipo
             .map((piloto) => (
               <tr key={piloto.id}>
                 <td>
                   <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.acronimo}</td>
-                <td>{piloto.pais}</td>
+                <td>{obtenerPaisDesdeNacionalidad(piloto.pais)}</td>
                 <td>{piloto.edad}</td>
                 <td>{new Date(piloto.fechaNacimiento).toLocaleDateString()}</td>
                 <td>{piloto.numeroPiloto}</td>
-                <td>{piloto.equipoId}</td>
+                <td>{piloto.equipoId || "Desconocido"}</td>
               </tr>
             ))}
         </tbody>

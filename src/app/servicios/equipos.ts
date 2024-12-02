@@ -1,8 +1,6 @@
-// servicios/equipos.ts
+
 import { Equipo } from "../lib/definitions";
 
-// servicios/equipos.ts
-// servicios/equipos.ts
 /* export const obtenerClasificacionConstructores = async (anio: number) => {
   const url = `https://ergast.com/api/f1/${anio}/constructorStandings.json`;
 
@@ -67,12 +65,10 @@ export const obtenerVictoriasPorConstructor = async (anio: number) => {
     const data = await response.json();
     const carreras = data.MRData.RaceTable.Races;
 
-    // Inicializa un objeto para contar las victorias por constructor
     const victoriasPorConstructor: { [key: string]: number } = {};
 
-    // Itera sobre todas las carreras
+    // Recorre todas las carreras
     carreras.forEach((carrera: any) => {
-      // Verifica si el primer lugar tiene un constructor (ganador)
       const ganador = carrera.Results[0].Constructor.name;
       if (ganador) {
         if (victoriasPorConstructor[ganador]) {
@@ -109,13 +105,13 @@ export const obtenerClasificacionConstructores = async (anio: number) => {
       nombre: standing.Constructor.name,
       posicion: parseInt(standing.position, 10),
       puntos: parseFloat(standing.points),
-      victorias: 0, // Este campo se actualizará con la función obtenerVictoriasPorConstructor
+      victorias: 0,
     }));
 
     // Obtiene las victorias por constructor
     const victorias = await obtenerVictoriasPorConstructor(anio);
 
-    // Asigna las victorias a cada constructor
+    // Relaciona las victorias a los constructores
     clasificacion.forEach((equipo: any) => {
       if (victorias[equipo.nombre]) {
         equipo.victorias = victorias[equipo.nombre];

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Campeon } from "../lib/definitions";
 import Navbar from "../componentes/navbar";
 import { obtenerCampeones } from "../servicios/campeones"; // Importa el servicio
+import { obtenerPaisDesdeNacionalidad } from "../lib/utils";
 
 const ITEMS_POR_PAGINA = 15;
 
@@ -40,13 +41,19 @@ export default function Campeones() {
   return (
     <div>
       <Navbar />
-      <h1>Campeones del Mundial de F1</h1>
-      <table style={{ width: "100%", textAlign: "left" }}>
-        <thead>
+      <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Campeones del Mundial de F1</h1>
+      <table
+        className="pt-3 table "
+        style={{
+          width: "100%",
+          textAlign: "left",
+        }}
+      >
+        <thead style={{ fontFamily: 'titulos'}}>
           <tr>
             <th>Año</th>
             <th>Nombre</th>
-            <th>Nacionalidad</th>
+            <th>País</th>
             <th>Fecha de Nacimiento (Edad Actual)</th>
             <th>Edad al Ganar</th>
             <th>Equipo</th>
@@ -60,7 +67,7 @@ export default function Campeones() {
               <tr key={campeon.anio}>
                 <td>{campeon.anio}</td>
                 <td>{campeon.nombre}</td>
-                <td>{campeon.nacionalidad}</td>
+                <td>{obtenerPaisDesdeNacionalidad(campeon.nacionalidad)}</td>
                 <td>{campeon.edadFormato}</td>
                 <td>{campeon.edadGanador}</td>
                 <td>{campeon.equipo}</td>
@@ -78,16 +85,16 @@ export default function Campeones() {
 
       {/* Paginación */}
       <div style={{ marginTop: "20px" }}>
-        <button
+        <button className="text-red-500" style={{ fontFamily: 'titulos'}}
           onClick={() => setPaginaActual((prev) => Math.max(prev - 1, 1))}
           disabled={paginaActual === 1}
         >
           Anterior
         </button>
         <span style={{ margin: "0 10px" }}>
-          Página {paginaActual} de {totalPaginas}
+          <span style={{ fontFamily: 'normal'}}>Página</span> <span style={{ fontFamily: 'titulos'}}>{paginaActual}</span> de <span style={{ fontFamily: 'titulos'}}>{totalPaginas}</span> 
         </span>
-        <button
+        <button className="text-red-500" style={{ fontFamily: 'titulos'}}
           onClick={() => setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))}
           disabled={paginaActual === totalPaginas}
         >

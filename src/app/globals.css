@@ -19,3 +19,24 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@font-face {
+  font-family: 'normal';
+  src: url('/fuentes/Formula1-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'titulos';
+  src: url('/fuentes/Formula1-Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'nombres';
+  src: url('/fuentes/Formula1-Wide.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

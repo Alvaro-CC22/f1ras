@@ -66,19 +66,19 @@ const ContadorRegresivo = () => {
   }, []);
 
   if (loading) {
-    return <div>Cargando contador...</div>;
+    return <div style={{ fontFamily: 'normal' }}>Cargando contador...</div>;
   }
 
   if (!fechaCarrera) {
-    return <div>No hay más carreras programadas.</div>;
+    return <div style={{ fontFamily: 'normal' }} className="pt-5 text-lg">No hay más carreras programadas.</div>;
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h2>Próxima Carrera</h2>
-      <p><strong>{nombreCarrera}</strong></p> {/* Mostrar el nombre del Gran Premio */}
-      <p>Fecha: {fechaCarrera.toLocaleString()}</p>
-      <h3>Tiempo restante: {tiempoRestante}</h3>
+    <div style={{ textAlign: "center", marginTop: "20px"}}>
+      <h2 style={{ fontFamily: 'titulos' }}>Próxima Carrera</h2>
+      <p style={{ fontFamily: 'nombres' }}>{nombreCarrera}</p> {/* Mostrar el nombre del Gran Premio */}
+      <p style={{ fontFamily: 'normal' }}>Fecha: {fechaCarrera.toLocaleString()}</p>
+      <h3 style={{ fontFamily: 'normal' }}>Tiempo restante: {tiempoRestante}</h3>
     </div>
   );
 };

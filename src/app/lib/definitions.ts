@@ -1,5 +1,5 @@
 export interface Piloto {
-    id: number;
+    id: string;
     nombre: string;
     acronimo: string;
     edad: number;
@@ -25,6 +25,7 @@ export interface Circuito {
     fechaInauguracion: string;
     tipo: string;
     longitud: number;
+    fecha: string;
     curvas: number;
     capacidad: number;
     pilotoRecordId?: number;
@@ -41,7 +42,7 @@ export interface Circuito {
 export interface Equipo {
     id: number;
     nombre: string;
-    pais: number;
+    pais: string;
     base: string;
     fechaInauguracion: string;
     pilotoId?: number;
@@ -51,7 +52,7 @@ export interface Equipo {
     podios: number;
     poles: number;
     vueltasRapidas: number;    
-
+    pilotos: string;
 }
 
 export interface Campeon {
