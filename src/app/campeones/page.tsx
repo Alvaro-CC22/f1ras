@@ -61,7 +61,7 @@ export default function Campeones() {
             <th>Victorias</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ fontFamily: 'normal'}}>
           {!loading ? (
             campeonesData.map((campeon) => (
               <tr key={campeon.anio}>
@@ -92,7 +92,7 @@ export default function Campeones() {
           Anterior
         </button>
         <span style={{ margin: "0 10px" }}>
-          <span style={{ fontFamily: 'normal'}}>Página</span> <span style={{ fontFamily: 'titulos'}}>{paginaActual}</span> de <span style={{ fontFamily: 'titulos'}}>{totalPaginas}</span> 
+          <span style={{ fontFamily: 'normal'}}>Página</span> <span style={{ fontFamily: 'titulos'}}>{paginaActual}</span> <span style={{ fontFamily: 'normal'}}>de</span> <span style={{ fontFamily: 'titulos'}}>{totalPaginas}</span> 
         </span>
         <button className="text-red-500" style={{ fontFamily: 'titulos'}}
           onClick={() => setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))}

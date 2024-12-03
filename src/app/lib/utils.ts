@@ -34,3 +34,13 @@ const nacionalidadAPais: Record<string, string> = {
     return nacionalidadAPais[nacionalidad] || nacionalidad; // Devuelve la nacionalidad como fallback
   }
   
+  export const obtenerColorPorPosicion = (posicion: number) => {
+    if (posicion === 1) {
+      return "dorado";
+    } else if (posicion === 2) {
+      return "plateado";
+    } else if (posicion === 3) {
+      return "bronze";
+    }
+    return "";
+  };

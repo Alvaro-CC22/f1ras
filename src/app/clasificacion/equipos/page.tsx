@@ -3,45 +3,35 @@
 import { useEffect, useState } from "react";
 import Navbar from './../../componentes/navbar';
 import { obtenerClasificacionConstructores } from './../../servicios/equipos';
+import { obtenerColorPorPosicion } from "@/app/lib/utils";
 
-const ITEMS_POR_PAGINA = 10;
-
-export default function ClasificacionConstructores() {
-  const [clasificacion, setClasificacion] = useState<any[]>([]);
-  const [paginaActual, setPaginaActual] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [anio, setAnio] = useState(2024); // El año que se desea mostrar
+export default function Home() {
+  const [equipos, setEquipos] = useState<any[]>([]);
+  const [anio, setAnio] = useState<number>(2024); 
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Mostrar loading mientras se obtienen los datos
-    setLoading(true);
-
-    const cargarClasificacion = async () => {
-      const clasificacionData = await obtenerClasificacionConstructores(anio);
-
-      if (clasificacionData.length > 0) {
-        setClasificacion(clasificacionData);
-        setTotal(clasificacionData.length);
+    const cargarDatos = async () => {
+      try {
+        setLoading(true); // Mostrar loading al empezar a cargar
+        const equiposData = await obtenerClasificacionConstructores(anio);
+        setEquipos(equiposData);
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+      } finally {
+        setLoading(false); // Dejar de mostrar loading después de cargar
       }
-
-      setLoading(false);
     };
 
-    cargarClasificacion();
-  }, [anio, paginaActual]);
-
-  const inicio = (paginaActual - 1) * ITEMS_POR_PAGINA;
-  const fin = inicio + ITEMS_POR_PAGINA;
-  const clasificacionPaginada = clasificacion.slice(inicio, fin);
-  const totalPaginas = Math.ceil(total / ITEMS_POR_PAGINA);
+    cargarDatos();
+  }, [anio]);
 
   return (
     <div>
       <Navbar />
-      <h1>Clasificación de Constructores ({anio})</h1>
+      <h1 style={{ fontFamily: 'nombres' }}>Clasificación de Constructores ({anio})</h1>
       <table style={{ width: "100%", textAlign: "left" }}>
-        <thead>
+        <thead style={{ fontFamily: 'titulos' }}>
           <tr>
             <th>Posición</th>
             <th>Nombre del Equipo</th>
@@ -49,24 +39,26 @@ export default function ClasificacionConstructores() {
             <th>Puntos</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ fontFamily: 'normal' }}>
           {loading ? (
             <tr>
               <td colSpan={4}>Cargando...</td>
             </tr>
           ) : (
-            clasificacionPaginada.map((constructor, index) => (
-              <tr key={index}>
-                <td>{constructor.posicion}</td>
-                <td>{constructor.nombre}</td>
-                <td>{constructor.victorias}</td>
-                <td>{constructor.puntos}</td>
-              </tr>
-            ))
+            equipos.map((equipo, index) => {
+              const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
+              return (
+                <tr key={equipo.nombre} className={colorClase}>
+                  <td>{equipo.posicion}</td>
+                  <td>{equipo.nombre}</td>
+                  <td>{equipo.victorias}</td>
+                  <td>{equipo.puntos}</td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>
-
     </div>
   );
 }

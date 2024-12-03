@@ -3,61 +3,40 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Piloto } from "../../lib/definitions";
 import { añosDisponibles } from "../../lib/const";
-import { obtenerPilotosPorAnio, obtenerResultados } from "../../servicios/pilotos";
+import { obtenerPilotosPorAnio, obtenerResultados, obtenerClasificacionPilotosDetallada } from "../../servicios/pilotos";
 import Navbar from "../../componentes/navbar";
+import { obtenerColorPorPosicion } from "@/app/lib/utils";
 
 export default function Home() {
   const [pilotos, setPilotos] = useState<Piloto[]>([]);
-  const [anio, setAnio] = useState<number>(2024); // Año predeterminado
+  const [anio, setAnio] = useState<number>(2024);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const cargarDatosPilotos = async () => {
-      const pilotosBase = await obtenerPilotosPorAnio(anio);
-
-      const pilotosConDatos = await Promise.all(
-        pilotosBase.map(async (piloto: any, index: number): Promise<Piloto> => {
-          const nacimiento = new Date(piloto.dateOfBirth);
-          const edad = new Date().getFullYear() - nacimiento.getFullYear();
-
-          const { victorias, podios, puntos, equipo } = await obtenerResultados(
-            piloto.driverId,
-            anio
-          );
-
-          return {
-            id: index + 1,
-            nombre: `${piloto.givenName} ${piloto.familyName}`,
-            acronimo: piloto.code || "N/A",
-            edad: edad,
-            fechaNacimiento: piloto.dateOfBirth,
-            numeroPiloto: parseInt(piloto.permanentNumber || "0"),
-            equipoId: equipo,
-            temporadas: 1,
-            campeonatos: 0,
-            victorias: victorias,
-            podios: podios,
-            puntos: puntos,
-            poles: 0,
-            vueltasRecord: 0,
-            vueltasRecordId: undefined,
-            retirado: false,
-          };
-        })
-      );
-
-      pilotosConDatos.sort((a, b) => b.puntos - a.puntos);
-      setPilotos(pilotosConDatos);
+    const cargarDatos = async () => {
+      try {
+        setLoading(true); // Mostrar loading al empezar a cargar
+        const pilotosData = await obtenerClasificacionPilotosDetallada(anio);
+        setPilotos(pilotosData);
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+      } finally {
+        setLoading(false); // Dejar de mostrar loading después de cargar
+      }
     };
 
-    cargarDatosPilotos();
+    cargarDatos();
   }, [anio]);
+
+  
+  
 
   return (
     <div>
-      <Navbar></Navbar>
-      <h1>Pilotos de F1 - Temporada {anio}</h1>
-      <div>
-        <label htmlFor="anio">Seleccionar Año:</label>
+      <Navbar />
+      <h1 style={{ fontFamily: 'nombres'}}>Pilotos de F1 - Temporada {anio}</h1>
+      <div style={{ fontFamily: 'titulos'}}>
+        <label htmlFor="anio">Seleccionar Año = </label>
         <select
           id="anio"
           value={anio}
@@ -70,32 +49,41 @@ export default function Home() {
           ))}
         </select>
       </div>
-      <table style={{ width: "100%", textAlign: "left" }}>
-        <thead>
+      <table className="" style={{ width: "100%", textAlign: "left" }}>
+        <thead style={{ fontFamily: 'titulos'}}>
           <tr>
             <th>Pos.</th>
             <th>Nombre</th>
-            <th>Número de Piloto</th>
+            <th>Nº Piloto</th>
             <th>Equipo</th>
             <th>Victorias</th>
             <th>Podios</th>
             <th>Puntos</th>
           </tr>
         </thead>
-        <tbody>
-          {pilotos.map((piloto, index) => (
-            <tr key={piloto.id}>
-              <td>{index + 1}</td>
-              <td>
-                <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
-              </td>
-              <td>{piloto.numeroPiloto}</td>
-              <td>{piloto.equipoId}</td>
-              <td>{piloto.victorias}</td>
-              <td>{piloto.podios}</td>
-              <td>{piloto.puntos}</td>
+        <tbody style={{ fontFamily: 'normal'}}>
+        {loading ? (
+            <tr>
+              <td colSpan={4}>Cargando...</td>
             </tr>
-          ))}
+          ) : (
+          pilotos.map((piloto, index) => {
+            const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
+            return (
+              <tr key={piloto.id} className={colorClase}>
+                <td>{index + 1}</td>
+                <td>
+                  <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
+                </td>
+                <td>{piloto.numeroPiloto}</td>
+                <td>{piloto.equipoId}</td>
+                <td>{piloto.victorias}</td>
+                <td>{piloto.podios}</td>
+                <td>{piloto.puntos}</td>
+              </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>

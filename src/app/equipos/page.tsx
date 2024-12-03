@@ -67,8 +67,8 @@ const Equipos = () => {
     return <div>
       <Navbar />
     <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Equipos de F1 ({anio})</h1>
-      <div>
-        <label htmlFor="anio" className="text-lg pt-1" style={{ fontFamily: 'titulos'}}>Seleccionar Año = </label>
+      <div className="text-lg pt-5 pb-3" style={{ fontFamily: 'titulos'}}>
+        <label htmlFor="anio" >Seleccionar Año = </label>
         <select
         style={{ fontFamily: 'titulos'}}
         className="text-lg pt-1"
@@ -107,11 +107,11 @@ const Equipos = () => {
     <div>
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Equipos de F1 ({anio})</h1>
-      <div>
-        <label htmlFor="anio" className="text-lg pt-5" style={{ fontFamily: 'titulos'}}>Seleccionar Año = </label>
+      <div className="text-lg pt-5 pb-3" style={{ fontFamily: 'titulos'}}>
+        <label htmlFor="anio" >Seleccionar Año = </label>
         <select
         style={{ fontFamily: 'titulos'}}
-        className="text-lg pt-1"
+        className="text-lg "
           id="anio"
           value={anio}
           onChange={(e) => setAnio(parseInt(e.target.value))}
@@ -138,7 +138,7 @@ const Equipos = () => {
             <th style={{ width: "20%" }}>Pilotos</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ fontFamily: 'normal'}} >
           {equipos.map((equipo) => (
             <tr key={equipo.id}>
               <td

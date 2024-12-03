@@ -70,7 +70,7 @@ const Circuitos = () => {
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <h2>{circuito.nombre}</h2>
+            <h2 style={{ fontFamily: 'nombres'}}>{circuito.nombre}</h2>
             <img
               src={circuito.imagen}
               alt={`Trazado de ${circuito.nombre}`}
@@ -82,14 +82,14 @@ const Circuitos = () => {
                 borderRadius: "5px",
               }}
             />
-            <p>
-              <strong>Fecha:</strong> {circuito.fecha}
+            <p style={{ fontFamily: 'normal'}}>
+              <strong style={{ fontFamily: 'titulos'}}>Fecha</strong>: {circuito.fecha}
             </p>
-            <p>
-              <strong>País:</strong> {circuito.pais}
+            <p style={{ fontFamily: 'normal'}}>
+              <strong style={{ fontFamily: 'titulos'}}>País</strong>: {circuito.pais}
             </p>
-            <p>
-              <strong>Último ganador:</strong> {circuito.ultimoGanador} (
+            <p style={{ fontFamily: 'normal'}}>
+              <strong style={{ fontFamily: 'titulos'}}>Último ganador</strong>: {circuito.ultimoGanador} (
               {circuito.anioUltimoGanador})
             </p>
           </div>

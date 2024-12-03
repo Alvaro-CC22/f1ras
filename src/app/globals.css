@@ -40,3 +40,15 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+.dorado {
+  color: gold; /* Para texto dorado */
+}
+
+.plateado {
+  color: silver;
+}
+
+.bronze {
+  color: #cd7f32; /* El color del bronce para el texto */
+}

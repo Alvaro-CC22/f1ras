@@ -82,7 +82,7 @@ export default function Home() {
             <th style={{ width: "15%" }}>País</th>
             <th style={{ width: "10%" }}>Edad</th>
             <th style={{ width: "20%" }}>Fecha de Nacimiento</th>
-            <th style={{ width: "10%" }}>Número Piloto</th>
+            <th style={{ width: "10%" }}>Nº Piloto</th>
             <th style={{ width: "15%" }}>Equipo</th>
           </tr>
         </thead>
@@ -130,7 +130,7 @@ export default function Home() {
             <th style={{ width: "15%" }}>País</th>
             <th style={{ width: "10%" }}>Edad</th>
             <th style={{ width: "20%" }}>Fecha de Nacimiento</th>
-            <th style={{ width: "10%" }}>Número Piloto</th>
+            <th style={{ width: "10%" }}>Nº Piloto</th>
             <th style={{ width: "15%" }}>Equipo</th>
           </tr>
         </thead>

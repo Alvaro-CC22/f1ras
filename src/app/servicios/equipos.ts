@@ -91,8 +91,11 @@ export const obtenerClasificacionConstructores = async (anio: number) => {
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
+    }
 
+    const data = await response.json();
     const standingsList = data.MRData.StandingsTable.StandingsLists;
 
     if (!standingsList || standingsList.length === 0) {
@@ -105,18 +108,11 @@ export const obtenerClasificacionConstructores = async (anio: number) => {
       nombre: standing.Constructor.name,
       posicion: parseInt(standing.position, 10),
       puntos: parseFloat(standing.points),
-      victorias: 0,
+      victorias: parseInt(standing.wins, 10),
+      nacionalidad: standing.Constructor.nationality,
+      constructorId: standing.Constructor.constructorId,
+      url: standing.Constructor.url,
     }));
-
-    // Obtiene las victorias por constructor
-    const victorias = await obtenerVictoriasPorConstructor(anio);
-
-    // Relaciona las victorias a los constructores
-    clasificacion.forEach((equipo: any) => {
-      if (victorias[equipo.nombre]) {
-        equipo.victorias = victorias[equipo.nombre];
-      }
-    });
 
     return clasificacion.sort((a: any, b: any) => a.posicion - b.posicion);
   } catch (error) {
@@ -124,3 +120,4 @@ export const obtenerClasificacionConstructores = async (anio: number) => {
     return [];
   }
 };
+
