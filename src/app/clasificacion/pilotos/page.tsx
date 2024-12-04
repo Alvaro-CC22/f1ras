@@ -73,7 +73,7 @@ export default function Home() {
               <tr key={piloto.id} className={colorClase}>
                 <td>{index + 1}</td>
                 <td>
-                  <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
+                  <Link href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.numeroPiloto}</td>
                 <td>{piloto.equipoId}</td>

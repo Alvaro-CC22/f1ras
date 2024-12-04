@@ -140,7 +140,7 @@ export default function Home() {
             .map((piloto) => (
               <tr key={piloto.id}>
                 <td>
-                  <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
+                  <Link href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.acronimo}</td>
                 <td>{obtenerPaisDesdeNacionalidad(piloto.pais)}</td>

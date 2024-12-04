@@ -77,6 +77,35 @@ export const calcularPodiosPiloto = async (anio: number, driverId: string): Prom
   return podios.length;
 };
 
+export async function obtenerPilotoPorId(id: string): Promise<Piloto> {
+  const response = await fetch(`https://ergast.com/api/f1/drivers/${id}.json`);
+  const data = await response.json();
+  
+  // Extraemos los datos del piloto desde la respuesta de la API
+  const pilotoData = data.MRData.DriverTable.Drivers[0];
+
+  const piloto: Piloto = {
+    id: pilotoData.driverId,
+    nombre: `${pilotoData.givenName} ${pilotoData.familyName}`,
+    acronimo: pilotoData.code || "N/A", // Asignar "N/A" si no tiene código
+    edad: new Date().getFullYear() - new Date(pilotoData.dateOfBirth).getFullYear(),
+    pais: pilotoData.nationality,
+    fechaNacimiento: pilotoData.dateOfBirth,
+    numeroPiloto: pilotoData.permanentNumber ? parseInt(pilotoData.permanentNumber) : 0,
+    puntos: 0, // Aquí puedes calcular o dejar en cero si no tienes la información
+    equipoId: "", // Si tienes un campo relacionado con el equipo, úsalo aquí
+    temporadas: 0, // Puedes calcular o dejar en cero si no tienes la información
+    campeonatos: 0, // Igual con los campeonatos
+    victorias: 0, // Necesitarás calcular este dato desde otro lugar o asignar un valor
+    podios: 0, // Lo mismo para los podios
+    poles: 0, // Poles
+    vueltasRecord: 0, // Vueltas récord
+    retirado: false, // Si la información está disponible, ajusta según sea necesario
+  };
+
+  return piloto;
+}
+
 
 
 

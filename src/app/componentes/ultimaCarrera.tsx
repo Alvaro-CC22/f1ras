@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { obtenerColorPorPosicion } from "../lib/utils";
 
 type Resultados = {
   position: string;
@@ -65,10 +66,10 @@ export default function UltimaCarrera() {
             </tr>
           </thead>
           <tbody style={{ fontFamily: 'normal' }}>
-            {carrera?.Results.map((resultado, index) => {
-            const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
-            return (
-              <tr key={index}>
+  {carrera?.Results.map((resultado, index) => {
+  const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
+  return (
+    <tr key={index}>
                 <td>{resultado.position}</td>
                 <td>
                   <a href={resultado.Driver.url} target="_blank" rel="noopener noreferrer">
@@ -83,10 +84,9 @@ export default function UltimaCarrera() {
                 <td>{resultado.Time ? resultado.Time.time : "DNF"}</td>
                 <td>{resultado.points}</td>
               </tr>
-            );
-        })
-      )}
-          </tbody>
+  );
+})}
+</tbody>
         </table>
       )}
     </div>

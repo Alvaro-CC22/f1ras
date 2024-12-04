@@ -14,7 +14,6 @@ export default function Home() {
   const [anio, setAnio] = useState<number>(2024); // Año predeterminado
 
   useEffect(() => {
-
     const cargarDatos = async () => {
       try {
         const pilotosData = await obtenerClasificacionPilotos(anio);
@@ -24,7 +23,6 @@ export default function Home() {
       } catch (error) {
         console.error("Error al cargar los datos:", error);
       }
-
     };
 
     cargarDatos();
@@ -103,9 +101,9 @@ export default function Home() {
                   <td>{index + 1}</td>
                   <td>{equipo.nombre}</td>
                   <td>{equipo.puntos}</td>
-                </tr>);
-            })
-          )}
+                </tr>
+            );
+          })}
             </tbody>
             
           </table>
