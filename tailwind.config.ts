@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      screens: {
+        lg: "1120px", // Breakpoint personalizado
+      },
     },
   },
   plugins: [],

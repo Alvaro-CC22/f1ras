@@ -51,7 +51,7 @@ export default function UltimaCarrera() {
   return (
     <div>
       <h1 style={{ fontFamily: 'nombres' }}>Última Carrera - {carrera?.raceName}</h1>
-      <p style={{ fontFamily: 'titulos' }}>Fecha - {carrera?.date}</p>
+      <p className="pb-5" style={{ fontFamily: 'titulos' }}>Fecha - {carrera?.date}</p>
       {loading ? (
         <p style={{ fontFamily: 'normal' }}>Cargando resultados...</p>
       ) : (

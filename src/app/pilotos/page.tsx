@@ -119,7 +119,6 @@ export default function Home() {
         style={{
           width: "100%",
           textAlign: "left",
-          tableLayout: "fixed",
         }}
       >
         <thead style={{ fontFamily: 'titulos'}}>

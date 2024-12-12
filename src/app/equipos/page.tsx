@@ -88,7 +88,6 @@ const Equipos = () => {
         style={{
           width: "100%",
           textAlign: "left",
-          tableLayout: "fixed",
         }}
       >
         <thead style={{ fontFamily: 'titulos'}}>
@@ -128,7 +127,6 @@ const Equipos = () => {
         style={{
           width: "100%",
           textAlign: "left",
-          tableLayout: "fixed",
         }}
       >
         <thead style={{ fontFamily: 'titulos'}}>
