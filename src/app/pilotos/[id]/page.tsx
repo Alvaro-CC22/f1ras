@@ -43,7 +43,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
 
   if (loading) {
     return (
-      <div>
+      <div className="w-fit">
         <Navbar />
         <p>Cargando datos del piloto...</p>
       </div>
@@ -52,7 +52,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
 
   if (!piloto) {
     return (
-      <div>
+      <div className="w-fit">
         <Navbar />
         <p>Piloto no encontrado.</p>
       </div>
@@ -60,7 +60,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
   }
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1>{`${piloto.nombre}`}</h1>
       <p>Nombre: {piloto.nombre}</p>

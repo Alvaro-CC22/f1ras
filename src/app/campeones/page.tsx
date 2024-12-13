@@ -39,7 +39,7 @@ export default function Campeones() {
   
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Campeones del Mundial de F1</h1>
       <table

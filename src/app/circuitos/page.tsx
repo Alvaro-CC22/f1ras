@@ -24,7 +24,7 @@ const Circuitos = () => {
 
   if (loading) {
     return (
-      <div>
+      <div className="w-fit">
         <Navbar />
         <h1 style={{ fontFamily: 'nombres', textAlign: "center"}} className="text-xl pt-5" >Circuitos de F1 ({anio})</h1>
         <div>
@@ -44,7 +44,7 @@ const Circuitos = () => {
   }
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5"> Circuitos de F1 ({anio}) </h1>
       <div>

@@ -103,7 +103,7 @@ const Equipos = () => {
   }
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Equipos de F1 ({anio})</h1>
       <div className="text-lg pt-5 pb-3" style={{ fontFamily: 'titulos'}}>

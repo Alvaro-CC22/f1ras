@@ -32,7 +32,7 @@ export default function Home() {
   
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}}>Pilotos de F1 - Temporada {anio}</h1>
       <div style={{ fontFamily: 'titulos'}}>

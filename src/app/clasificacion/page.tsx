@@ -30,7 +30,7 @@ export default function Home() {
   }, [anio]);
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">F1 - Temporada {anio}</h1>
       <div className="text-lg pt-5" style={{ fontFamily: 'titulos'}}>

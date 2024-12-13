@@ -1,40 +1,41 @@
-"use client";
+"use client"; 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const handleResize = () => {
-    setScreenWidth(window.innerWidth);
+    setIsSmallScreen(window.innerWidth < 1120);
   };
 
   useEffect(() => {
+    handleResize(); // Configuración inicial
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getMenuStyles = () => {
-    // Estilo condicional según el ancho de la pantalla
-    if (screenWidth <= 340) {
+  // Estilo condicional del background
+  const getMenuBackgroundStyle = () => {
+    if (window.innerWidth <= 340) {
       return {
         background: "black",
         border: "8px double red",
         borderRadius: "10px",
-        width: "330px", // Mantener un tamaño fijo
-        margin: "0 auto", // Centrar el menú si es necesario
+        maxWidth: "320px", // Limitar el ancho mínimo
       };
-    } else if (screenWidth < 1120) {
+    } else if (isSmallScreen) {
       return {
         background: "black",
         border: "8px double red",
         borderRadius: "10px",
+        maxWidth: "320px",
       };
     }
     return {};
@@ -48,7 +49,7 @@ const Navbar = () => {
           backgroundSize: "auto",
           backgroundRepeat: "no-repeat",
           minHeight: "106px",
-          width: "100%",
+          minWidth: "100vw",
         }}
         className="text-white p-4"
       >
@@ -64,27 +65,27 @@ const Navbar = () => {
 
         {/* Lista de enlaces */}
         <ul
-          style={{ fontFamily: "nombres", ...getMenuStyles() }}
+          style={{ fontFamily: "nombres", ...getMenuBackgroundStyle() }}
           className={`lg:flex lg:space-x-4 lg:pt-5 lg:text-lg ${
             isMenuOpen ? "block" : "hidden"
           } text-lg`}
         >
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/">Inicio</Link>
           </li>
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/pilotos">Pilotos</Link>
           </li>
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/equipos">Equipos</Link>
           </li>
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/clasificacion">Clasificación</Link>
           </li>
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/circuitos">Circuitos</Link>
           </li>
-          <li>
+          <li className="hover:text-red-600">
             <Link href="/campeones">Campeones</Link>
           </li>
         </ul>

@@ -47,7 +47,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div>
+      <div className="w-fit">
         <Navbar />
         <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Pilotos de F1 - Temporada {anio}</h1>
       <div>
@@ -93,7 +93,7 @@ export default function Home() {
   }
 
   return (
-    <div >
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Pilotos de F1 - Temporada {anio}</h1>
       <div >

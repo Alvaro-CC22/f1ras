@@ -27,7 +27,7 @@ export default function Home() {
   }, [anio]);
 
   return (
-    <div>
+    <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres' }}>Clasificación de Constructores ({anio})</h1>
       <table style={{ width: "100%", textAlign: "left" }}>
