@@ -70,7 +70,7 @@ const Circuitos = () => {
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <h2 style={{ fontFamily: 'nombres'}}>{circuito.nombre}</h2>
+            <h2 className="hover:text-red-500 hover:underline hover:font-bold " style={{ fontFamily: 'nombres'}}>{circuito.nombre}</h2>
             <img
               src={circuito.imagen}
               alt={`Trazado de ${circuito.nombre}`}

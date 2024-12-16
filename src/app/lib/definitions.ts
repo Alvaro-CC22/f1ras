@@ -56,6 +56,7 @@ export interface Equipo {
 }
 
 export interface Campeon {
+    id: string;
     anio: number; 
     nombre: string; 
     fechaNacimiento: string; 

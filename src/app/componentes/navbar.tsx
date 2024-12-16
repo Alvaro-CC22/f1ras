@@ -68,7 +68,7 @@ const Navbar = () => {
           style={{ fontFamily: "nombres", ...getMenuBackgroundStyle() }}
           className={`lg:flex lg:space-x-4 lg:pt-5 lg:text-lg ${
             isMenuOpen ? "block" : "hidden"
-          } text-lg`}
+          } text-lg ps-8`}
         >
           <li className="hover:text-red-600">
             <Link href="/">Inicio</Link>

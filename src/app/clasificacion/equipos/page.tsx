@@ -50,7 +50,7 @@ export default function Home() {
               return (
                 <tr key={equipo.nombre} className={colorClase}>
                   <td>{equipo.posicion}</td>
-                  <td>{equipo.nombre}</td>
+                  <td className="hover:text-red-500 hover:underline hover:font-bold ">{equipo.nombre}</td>
                   <td>{equipo.victorias}</td>
                   <td>{equipo.puntos}</td>
                 </tr>

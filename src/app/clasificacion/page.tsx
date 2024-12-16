@@ -69,8 +69,8 @@ export default function Home() {
             return (
               <tr key={piloto.id} className={colorClase}>
                 <td>{index + 1}</td>
-                <td>
-                  <Link href={`/pilotos/${anio}/${piloto.id}`}>{piloto.nombre}</Link>
+                <td className="hover:text-red-500 hover:underline hover:font-bold ">
+                  <Link href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.numeroPiloto}</td>
                 <td>{piloto.equipoId}</td>
@@ -99,7 +99,7 @@ export default function Home() {
             return (
               <tr key={equipo.nombre} className={colorClase}>
                   <td>{index + 1}</td>
-                  <td>{equipo.nombre}</td>
+                  <td className="hover:text-red-500 hover:underline hover:font-bold ">{equipo.nombre}</td>
                   <td>{equipo.puntos}</td>
                 </tr>
             );

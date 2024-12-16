@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Campeon } from "../lib/definitions";
+import { Piloto } from "../lib/definitions";
 import Navbar from "../componentes/navbar";
+import Link from "next/link";
 import { obtenerCampeones } from "../servicios/campeones"; // Importa el servicio
 import { obtenerPaisDesdeNacionalidad } from "../lib/utils";
 
@@ -66,7 +68,8 @@ export default function Campeones() {
             campeonesData.map((campeon) => (
               <tr key={campeon.anio}>
                 <td>{campeon.anio}</td>
-                <td>{campeon.nombre}</td>
+                <td className="hover:text-red-500 hover:underline hover:font-bold ">
+                <Link href={`/pilotos/${campeon.id}`}>{campeon.nombre}</Link></td>
                 <td>{obtenerPaisDesdeNacionalidad(campeon.nacionalidad)}</td>
                 <td>{campeon.edadFormato}</td>
                 <td>{campeon.edadGanador}</td>
