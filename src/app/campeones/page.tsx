@@ -68,8 +68,8 @@ export default function Campeones() {
             campeonesData.map((campeon) => (
               <tr key={campeon.anio}>
                 <td>{campeon.anio}</td>
-                <td className="hover:text-red-500 hover:underline hover:font-bold ">
-                <Link href={`/pilotos/${campeon.id}`}>{campeon.nombre}</Link></td>
+                <td>
+                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${campeon.id}`}>{campeon.nombre}</Link></td>
                 <td>{obtenerPaisDesdeNacionalidad(campeon.nacionalidad)}</td>
                 <td>{campeon.edadFormato}</td>
                 <td>{campeon.edadGanador}</td>

@@ -145,16 +145,17 @@ const Equipos = () => {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
+                
               >
-                <Link href={`/equipos/${anio}/${equipo.id}`}>
+                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/equipos/${anio}/${equipo.id}`}>
                   {equipo.nombre}
                 </Link>
               </td>
               <td>{obtenerPaisDesdeNacionalidad(equipo.pais)}</td>
-              <td>
+              <td >
                 {equipo.pilotos.map((piloto) => (
-                  <div key={piloto.id}>
-                    <Link href={`/pilotos/${anio}/${piloto.id}`}>
+                  <div  key={piloto.id}>
+                    <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${anio}/${piloto.id}`}>
                       {piloto.nombre} ({piloto.acronimo})
                     </Link>
                   </div>
