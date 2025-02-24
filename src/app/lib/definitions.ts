@@ -52,7 +52,7 @@ export interface Equipo {
     podios: number;
     poles: number;
     vueltasRapidas: number;    
-    pilotos: string;
+    pilotos: Piloto[];
 }
 
 export interface Campeon {

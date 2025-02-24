@@ -1,11 +1,12 @@
-"use client";
+"use client"; 
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { obtenerPilotoPorId } from "../../servicios/pilotos"; // Asegúrate de que la ruta sea correcta
+import { obtenerPilotoPorId, obtenerResultadosCarrera } from "../../servicios/pilotos"; // Asegúrate de que la ruta sea correcta
 import Navbar from "../../componentes/navbar";
 import { Piloto } from "../../lib/definitions"; // Importa la interfaz Piloto
 import React from "react";
+import { obtenerPaisDesdeNacionalidad } from "@/app/lib/utils";
 
 export default function PilotoPage({ params }: { params: Promise<{ id: string }> }) {
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
@@ -27,6 +28,9 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
     const { id } = unwrappedParams;
 
     const cargarDatosPiloto = async () => {
+      const resultadosCarrera = await obtenerResultadosCarrera(id); // Ejemplo con el ID de Alonso
+      console.log(resultadosCarrera);
+
       setLoading(true);
       try {
         const datosPiloto = await obtenerPilotoPorId(id);
@@ -45,7 +49,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
     return (
       <div className="w-fit">
         <Navbar />
-        <p>Cargando datos del piloto...</p>
+        <p style={{ fontFamily: 'normal' }}>Cargando datos del piloto...</p>
       </div>
     );
   }
@@ -54,7 +58,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
     return (
       <div className="w-fit">
         <Navbar />
-        <p>Piloto no encontrado.</p>
+        <p style={{ fontFamily: 'normal' }}>Piloto no encontrado.</p>
       </div>
     );
   }
@@ -62,23 +66,50 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
   return (
     <div className="w-fit">
       <Navbar />
-      <h1>{`${piloto.nombre}`}</h1>
-      <p>Nombre: {piloto.nombre}</p>
-      <p>Edad: {piloto.edad}</p>
-      <p>País: {piloto.pais}</p>
-      <p>Fecha de Nacimiento: {new Date(piloto.fechaNacimiento).toLocaleDateString()}</p>
-      <p>Número Piloto: {piloto.numeroPiloto}</p>
-      <p>Puntos: {piloto.puntos}</p>
-      <p>Temporadas: {piloto.temporadas}</p>
-      <p>Campeonatos: {piloto.campeonatos}</p>
-      <p>Victorias: {piloto.victorias}</p>
-      <p>Podios: {piloto.podios}</p>
-      <p>Poles: {piloto.poles}</p>
-      <p>Vueltas récord: {piloto.vueltasRecord}</p>
-      <p>
-        Más información:{" "}
-        <a href={piloto.equipoId ? `/equipos/${piloto.equipoId}` : "#"}>Ver equipo</a>
-      </p>
+      <div className="flex">
+        {/* Columna izquierda: Datos del piloto */}
+        <div className="mr-14">
+          <h1 className="text-lg" style={{ fontFamily: 'nombres'}}>{`${piloto.nombre}`}</h1>
+          
+          {piloto.imagen && (
+            <img
+              src={`http://127.0.0.1:8000/uploads/${piloto.imagen}`} // Concatenamos la URL base con el nombre de la imagen
+              alt={`Foto de ${piloto.nombre}`}
+              className="ml-10 w-60 h-60 mb-10 object-cover rounded"
+            />
+          )}
+          
+          <p><span style={{ fontFamily: 'titulos' }}>Edad<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span><span style={{ fontFamily: 'normal' }}> {piloto.edad}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>País<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{obtenerPaisDesdeNacionalidad(piloto.pais)}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Fecha de Nacimiento<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{new Date(piloto.fechaNacimiento).toLocaleDateString()}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Número Piloto<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.numeroPiloto}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Puntos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.puntos}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Temporadas<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.temporadas}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Campeonatos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.campeonatos}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Victorias<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.victorias}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Podios<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.podios}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Poles<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.poles}</span></p>
+          <p><span style={{ fontFamily: 'titulos' }}>Vueltas Rápidas<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.vueltasRecord}</span></p>
+        </div>
+
+        {/* Columna derecha: Biografía */}
+        <div className="flex-1">
+          <h2 className="text-xl mb-10" style={{ fontFamily: 'titulos'}}>Biografía</h2>
+          <p style={{ fontFamily: 'normal' }}>{piloto.biografia || "Biografía no disponible."}</p>
+
+          {/* Mostrar la imagen del equipo actual */}
+          {piloto.equipoActual && (
+            <div className="mt-4">
+              <h3 className="text-lg" style={{ fontFamily: 'titulos' }}>Equipo Actual</h3>
+              <img
+                src={`http://127.0.0.1:8000/uploads/${piloto.equipoActual}`} // Concatenamos la URL base con el nombre de la imagen
+                alt={`Imagen del equipo de ${piloto.nombre}`}
+                className="h-48 object-cover rounded"
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

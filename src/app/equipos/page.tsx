@@ -138,7 +138,7 @@ const Equipos = () => {
         </thead>
         <tbody style={{ fontFamily: 'normal'}} >
           {equipos.map((equipo) => (
-            <tr key={equipo.id}>
+            <tr key={equipo.id} className="border-b border-gray-300 last:border-0">
               <td
                 style={{
                   overflow: "hidden",

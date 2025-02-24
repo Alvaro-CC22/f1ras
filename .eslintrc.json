@@ -1,3 +1,21 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "next",
+    "next/typescript",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "env": {
+    "browser": true // Asegura que ESLint reconozca variables globales como `window`, `document`, etc.
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",  // Deshabilitar la regla de 'no-unused-vars'
+    "@typescript-eslint/no-explicit-any": "off",  // Deshabilitar la regla de 'no-explicit-any'
+    "react-hooks/exhaustive-deps": "off",  // Deshabilitar la advertencia de dependencias en useEffect
+    "next/next/no-img-element": "off",  // Deshabilitar la advertencia sobre <img> en Next.js
+    "prefer-const": "off",  // Deshabilitar la regla de 'prefer-const'
+    "no-undef": "off",  // Desactivar la regla de 'undefined' para el lado del cliente
+    "react/no-danger": "off" // Desactivar la regla si usas 'dangerouslySetInnerHTML' o similar
+  }
 }

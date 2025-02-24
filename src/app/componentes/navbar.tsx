@@ -11,19 +11,21 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleResize = () => {
-    setIsSmallScreen(window.innerWidth < 1120);
-  };
-
   useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1120);
+    };
+
     handleResize(); // Configuración inicial
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   // Estilo condicional del background
+  
   const getMenuBackgroundStyle = () => {
-    if (window.innerWidth <= 340) {
+    
+    if (typeof window !== "undefined" && window.innerWidth <= 340) {
       return {
         background: "black",
         border: "8px double red",
