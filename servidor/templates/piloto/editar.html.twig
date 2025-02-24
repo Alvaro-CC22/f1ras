@@ -1,0 +1,20 @@
+{# templates/piloto/editar.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Piloto{% endblock %}
+
+{% block body %}
+    <h1>Editar Piloto</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.imagen) }}
+        {{ form_row(form.EquipoActual) }}
+        {{ form_row(form.biografia) }}
+        {{ form_row(form.temporadas) }}
+        {{ form_row(form.poles) }}
+        {{ form_row(form.fastLaps) }}
+        {{ form_row(form.podios) }}
+        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+    {{ form_end(form) }}
+{% endblock %}

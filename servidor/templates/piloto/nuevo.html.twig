@@ -1,0 +1,23 @@
+{# templates/piloto/nuevo.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Piloto{% endblock %}
+
+{% block body %}
+    <h1>Añadir un nuevo piloto</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.imagen) }}
+        {{ form_row(form.biografia) }}
+        {{ form_row(form.temporadas) }}
+        {{ form_row(form.poles) }}
+        {{ form_row(form.fastLaps) }}
+        {{ form_row(form.podios) }}
+
+        {# Agregar campo para imagen del equipo actual #}
+        {{ form_row(form.EquipoActual) }}
+
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
+{% endblock %}

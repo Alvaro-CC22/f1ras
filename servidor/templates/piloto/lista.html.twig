@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Pilotos{% endblock %}
+
+{% block body %}
+    <h1>Lista de Pilotos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Biografía</th>
+                <th>Temporadas</th>
+                <th>Poles</th>
+                <th>Fast Laps</th>
+                <th>Podios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for piloto in pilotos %}
+                <tr>
+                    <td>{{ piloto.id }}</td>
+                    <td>
+                        {% if piloto.imagen %}
+                            <img src="{{ asset('uploads/' ~ piloto.imagen) }}" alt="{{ piloto.id }}" width="100">
+                        {% else %}
+                            No hay imagen
+                        {% endif %}
+                    </td>
+                    <td>{{ piloto.biografia }}</td>
+                    <td>{{ piloto.temporadas }}</td>
+                    <td>{{ piloto.poles }}</td>
+                    <td>{{ piloto.fastLaps }}</td>
+                    <td>{{ piloto.podios }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No hay pilotos disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
