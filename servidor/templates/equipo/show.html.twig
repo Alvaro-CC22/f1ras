@@ -1,0 +1,15 @@
+{# templates/equipo/show.html.twig #}
+<h1>{{ equipo.id }}</h1>
+<p><strong>Historia:</strong> {{ equipo.historia }}</p>
+<p><strong>Temporadas:</strong> {{ equipo.temporadas }}</p>
+<p><strong>Campeonatos:</strong> {{ equipo.campeonatos }}</p>
+<p><strong>Victorias:</strong> {{ equipo.victorias }}</p>
+<p><strong>Poles:</strong> {{ equipo.poles }}</p>
+<p><strong>Carreras:</strong> {{ equipo.carreras }}</p>
+<p><strong>Fundación:</strong> {{ equipo.fundacion|date('Y-m-d') }}</p>
+<p><strong>Campeonato Piloto:</strong> {{ equipo.campeonatoPiloto }}</p>
+
+{# Si tienes una imagen asociada, también puedes mostrarla #}
+{% if equipo.imagen %}
+    <img src="{{ asset('uploads/' ~ equipo.imagen) }}" alt="{{ equipo.id }}" />
+{% endif %}

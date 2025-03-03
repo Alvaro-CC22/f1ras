@@ -1,0 +1,18 @@
+{# templates/circuito/editar.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Circuito{% endblock %}
+
+{% block body %}
+    <h1>Editar Circuito</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.longitud) }}
+        {{ form_row(form.curvas) }}
+        {{ form_row(form.vueltaRecord) }}
+        {{ form_row(form.inauguracion) }}
+        {{ form_row(form.historia) }}
+        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+    {{ form_end(form) }}
+{% endblock %}

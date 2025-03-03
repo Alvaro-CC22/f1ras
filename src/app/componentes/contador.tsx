@@ -1,4 +1,5 @@
 "use client"; 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const ContadorRegresivo = () => {
@@ -6,11 +7,13 @@ const ContadorRegresivo = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [fechaCarrera, setFechaCarrera] = useState<Date | null>(null);
   const [nombreCarrera, setNombreCarrera] = useState<string>("");
+  const [idCarrera, setIdCarrera] = useState<string>("");
+  const [circuito, setCircuito] = useState<string>("");  
 
   // Función para obtener la fecha y nombre de la próxima carrera
   const fetchProximaCarrera = async () => {
     const anioActual = new Date().getFullYear();
-    const url = `https://ergast.com/api/f1/${anioActual}.json`;
+    const url = `https://api.jolpi.ca/ergast/f1/2025.json`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -24,6 +27,9 @@ const ContadorRegresivo = () => {
       if (proximaCarrera) {
         setFechaCarrera(new Date(`${proximaCarrera.date}T${proximaCarrera.time}`));
         setNombreCarrera(proximaCarrera.raceName); // Guardar el nombre de la carrera
+        setIdCarrera(proximaCarrera.Circuit.circuitId);
+        setCircuito(proximaCarrera.Circuit.circuitName);
+        console.log(proximaCarrera);
       } else {
         console.log("No hay más carreras en esta temporada.");
       }
@@ -76,7 +82,8 @@ const ContadorRegresivo = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "20px"}}>
       <h2 style={{ fontFamily: 'titulos' }}>Próxima Carrera</h2>
-      <p style={{ fontFamily: 'nombres' }}>{nombreCarrera}</p> {/* Mostrar el nombre del Gran Premio */}
+      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{nombreCarrera}</Link></p> {/* Mostrar el nombre del Gran Premio */}
+      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{circuito}</Link></p> {/* Mostrar el nombre del Gran Premio */}
       <p style={{ fontFamily: 'normal' }}>Fecha: {fechaCarrera.toLocaleString()}</p>
       <h3 style={{ fontFamily: 'normal' }}>Tiempo restante: {tiempoRestante}</h3>
     </div>

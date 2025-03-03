@@ -1,0 +1,24 @@
+{# templates/equipo/editar.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Equipo{% endblock %}
+
+{% block body %}
+    <h1>Editar Equipo</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.imagen) }}
+        {{ form_row(form.historia) }}
+        {{ form_row(form.temporadas) }}
+        {{ form_row(form.campeonatos) }}
+        {{ form_row(form.victorias) }}
+        {{ form_row(form.poles) }}
+        {{ form_row(form.carreras) }}
+        {{ form_row(form.fundacion) }}
+        {{ form_row(form.campeonatoPiloto) }}
+        {{ form_row(form.puntos) }}
+        {{ form_row(form.podios) }}
+        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+    {{ form_end(form) }}
+{% endblock %}

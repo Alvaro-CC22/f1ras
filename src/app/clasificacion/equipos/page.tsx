@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from './../../componentes/navbar';
 import { obtenerClasificacionConstructores } from './../../servicios/equipos';
 import { obtenerColorPorPosicion } from "@/app/lib/utils";
+import Link from "next/link";
 
 export default function Home() {
   const [equipos, setEquipos] = useState<any[]>([]);
@@ -30,7 +31,7 @@ export default function Home() {
     <div className="w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres' }}>Clasificación de Constructores ({anio})</h1>
-      <table style={{ width: "100%", textAlign: "left" }}>
+      <table className="bg-black text-white" style={{ width: "100%", textAlign: "left" }}>
         <thead style={{ fontFamily: 'titulos' }}>
           <tr>
             <th>Posición</th>
@@ -48,9 +49,11 @@ export default function Home() {
             equipos.map((equipo, index) => {
               const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
               return (
-                <tr key={equipo.nombre} className={colorClase}>
+                <tr key={equipo.nombre} className={`${colorClase} border-b border-red-600 last:border-0`}>
                   <td>{equipo.posicion}</td>
-                  <td >{equipo.nombre}</td>
+                  <td><Link className="hover:text-red-600 hover:underline hover:font-bold " href={`/equipos/${equipo.constructorId}`}>
+                  {equipo.nombre}
+                  </Link></td>
                   <td>{equipo.victorias}</td>
                   <td>{equipo.puntos}</td>
                 </tr>

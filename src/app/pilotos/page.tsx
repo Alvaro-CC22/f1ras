@@ -21,23 +21,26 @@ export default function Home() {
         const pilotosConDatos = await Promise.all(
           pilotosBase.map(async (pilotoBase: Piloto): Promise<Piloto> => {
             const { id, nombre, acronimo, pais, fechaNacimiento, numeroPiloto } = pilotoBase;
-
-            // Obtener equipo de cada piloto
-            const equipo = await obtenerEquipoDePiloto(anio, pilotoBase.id);
-
+        
+            // Obtener el equipo con id y nombre para cada piloto
+            const { id: equipoId, nombre: equipoNombre } = await obtenerEquipoDePiloto(anio, pilotoBase.id);
+        
             return {
               ...pilotoBase,
               edad: anio - new Date(fechaNacimiento).getFullYear(),
-              equipoId: equipo,
+              equipoId, // Aquí asignas el id del equipo
+              equipoNombre, // Aquí asignas el nombre del equipo
               retirado: false, // Suponiendo que no está retirado para esta temporada
             };
           })
         );
-
+        
+        console.log(pilotosConDatos);
         setPilotos(pilotosConDatos);
       } catch (error) {
         console.error("Error cargando los datos:", error);
       } finally {
+        
         setLoading(false); // Finalizar la carga
       }
     };
@@ -123,7 +126,7 @@ export default function Home() {
       >
         <thead style={{ fontFamily: 'titulos'}}>
         
-          <tr>
+          <tr className=" bg-black text-white">
             <th style={{ width: "20%" }}>Nombre</th>
             <th style={{ width: "10%" }}>Acrónimo</th>
             <th style={{ width: "15%" }}>País</th>
@@ -133,23 +136,33 @@ export default function Home() {
             <th style={{ width: "15%" }}>Equipo</th>
           </tr>
         </thead>
-        <tbody style={{ fontFamily: 'normal'}}>
-          {pilotos
-            .sort((a, b) => a.equipoId?.localeCompare(b.equipoId || "") || 0) // Ordenar por equipo
-            .map((piloto) => (
-              <tr key={piloto.id}>
-                <td>
-                  <Link href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
-                </td>
-                <td>{piloto.acronimo}</td>
-                <td>{obtenerPaisDesdeNacionalidad(piloto.pais)}</td>
-                <td>{piloto.edad}</td>
-                <td>{new Date(piloto.fechaNacimiento).toLocaleDateString()}</td>
-                <td>{piloto.numeroPiloto}</td>
-                <td>{piloto.equipoId || "Desconocido"}</td>
-              </tr>
-            ))}
-        </tbody>
+        <tbody style={{ fontFamily: 'normal' }}>
+  {pilotos
+    .sort((a, b) => a.equipoId?.localeCompare(b.equipoId || "") || 0) // Ordenar por equipo
+    .map((piloto, index) => (
+      <tr key={piloto.id} className={`${index % 2 === 0 ? "bg-white text-black" : "bg-red-600 text-white " } border-b border-black last:border-0`}>
+        <td>
+          <Link className={`${
+                      index % 2 === 0 ? 'hover:text-red-600' : 'hover:text-black'
+                    } hover:underline hover:font-bold`} href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
+        </td>
+        <td>{piloto.acronimo}</td>
+        <td>{obtenerPaisDesdeNacionalidad(piloto.pais)}</td>
+        <td>{piloto.edad}</td>
+        <td>{new Date(piloto.fechaNacimiento).toLocaleDateString()}</td>
+        <td>{piloto.numeroPiloto}</td>
+        <td> <Link
+                    className={`${
+                      index % 2 === 0 ? 'hover:text-red-600' : 'hover:text-black'
+                    } hover:underline hover:font-bold`}
+                    href={`/equipos/${piloto.equipoId}`}
+                  >
+                    {piloto.equipoNombre || "Desconocido"}
+                  </Link></td>
+      </tr>
+    ))}
+</tbody>
+
       </table>
     </div>
   );

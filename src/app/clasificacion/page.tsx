@@ -52,8 +52,8 @@ export default function Home() {
       <div className=" pt-3"  style={{ display: "flex", gap: "20px" }}>
         {/* Tabla de pilotos */}
         <div style={{ flex: 1 }}>
-        <Link href={`/clasificacion/pilotos`}><h2 className="text-xl text-red-500" style={{ fontFamily: 'titulos'}}>Clasificación de Pilotos</h2></Link>
-          <table style={{ width: "100%", textAlign: "left" }}>
+        <h2 className="text-xl " style={{ fontFamily: 'titulos'}}><Link className="hover:underline hover:text-red-600" href={`/clasificacion/pilotos`}>Clasificación de Pilotos</Link></h2>
+          <table className="bg-black text-white" style={{ width: "100%", textAlign: "left" }}>
             <thead style={{ fontFamily: 'titulos'}}>
               <tr>
                 <th>Pos.</th>
@@ -67,15 +67,15 @@ export default function Home() {
             {pilotos.map((piloto, index) => {
             const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
             return (
-              <tr key={piloto.id} className={colorClase}>
+              <tr key={piloto.id} className={`${colorClase} border-b border-red-600 last:border-0`}>
                 <td>{index + 1}</td>
                 <td >
-                  <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
+                  <Link className="hover:text-red-600 hover:underline hover:font-bold " href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.numeroPiloto}</td>
                 <td>
-                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/equipos/${piloto.equipoId}`}>
-                  {piloto.equipoId}
+                <Link className="hover:text-red-600 hover:underline hover:font-bold " href={`/equipos/${piloto.equipoId}`}>
+                  {piloto.equipoNombre}
                 </Link>
                 </td>
                 <td>{piloto.puntos}</td>
@@ -88,8 +88,8 @@ export default function Home() {
 
         {/* Tabla de equipos */}
         <div style={{ flex: 1 }}>
-        <Link href={`/clasificacion/equipos`}><h2 className="text-xl text-red-500" style={{ fontFamily: 'titulos'}}>Clasificación de Constructores</h2></Link>
-          <table style={{ width: "100%", textAlign: "left" }}>
+        <h2 className="text-xl " style={{ fontFamily: 'titulos'}}><Link className="hover:underline hover:text-red-600" href={`/clasificacion/equipos`}>Clasificación de Constructores</Link></h2>
+          <table className="bg-black text-white" style={{ width: "100%", textAlign: "left" }}>
             <thead style={{ fontFamily: 'titulos'}}>
               <tr>
                 <th>Pos.</th>
@@ -101,10 +101,10 @@ export default function Home() {
             {equipos.map((equipo, index) => {
             const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
             return (
-              <tr key={equipo.nombre} className={colorClase}>
+              <tr key={equipo.nombre} className={`${colorClase} border-b border-red-600 last:border-0`}>
                   <td>{index + 1}</td>
                   <td>
-                  <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/equipos/${equipo.nombre}`}>
+                  <Link className="hover:text-red-600 hover:underline hover:font-bold " href={`/equipos/${equipo.constructorId}`}>
                   {equipo.nombre}
                   </Link>
                   </td>

@@ -11,6 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dorado: 'gold',
       },
       screens: {
         lg: "1120px", // Breakpoint personalizado

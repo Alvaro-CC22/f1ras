@@ -259,7 +259,8 @@ export const obtenerClasificacionPilotos = async (anio: number): Promise<Piloto[
         fechaNacimiento,
         numeroPiloto: piloto.Driver.permanentNumber ? parseInt(piloto.Driver.permanentNumber, 10) : 0,
         puntos: parseFloat(piloto.points),
-        equipoId: piloto.Constructors[0]?.name || undefined,
+        equipoId: piloto.Constructors[0]?.constructorId || undefined,
+        equipoNombre: piloto.Constructors[0]?.name || undefined,
         temporadas: 1,
         campeonatos: 0,
         victorias: parseInt(piloto.wins, 10),
@@ -306,7 +307,8 @@ export const obtenerClasificacionPilotosDetallada = async (anio: number): Promis
         fechaNacimiento,
         numeroPiloto: piloto.Driver.permanentNumber ? parseInt(piloto.Driver.permanentNumber, 10) : 0,
         puntos: parseFloat(piloto.points),
-        equipoId: piloto.Constructors[0]?.name || undefined,
+        equipoId: piloto.Constructors[0]?.constructorId || undefined,
+        equipoNombre: piloto.Constructors[0]?.name || undefined,
         temporadas: 1,
         campeonatos: 0,
         victorias: parseInt(piloto.wins, 10),
@@ -359,7 +361,7 @@ export const obtenerPilotosPorAnio = async (anio: number): Promise<Piloto[]> => 
 export const obtenerEquipoDePiloto = async (
   anio: number,
   driverId: string
-): Promise<string> => {
+): Promise<{ id: string, nombre: string }> => {
   try {
     const response = await fetch(
       `https://ergast.com/api/f1/${anio}/drivers/${driverId}/constructors.json`
@@ -371,15 +373,19 @@ export const obtenerEquipoDePiloto = async (
 
     const data = await response.json();
 
-    // Si la respuesta contiene datos de constructores, devolvemos el nombre del equipo
-    return data.MRData.ConstructorTable.Constructors.length > 0
-      ? data.MRData.ConstructorTable.Constructors[0].name
-      : "Desconocido";
+    // Si la respuesta contiene datos de constructores, devolvemos el id y nombre del equipo
+    if (data.MRData.ConstructorTable.Constructors.length > 0) {
+      const constructor = data.MRData.ConstructorTable.Constructors[0];
+      return { id: constructor.constructorId, nombre: constructor.name };
+    } else {
+      return { id: "Desconocido", nombre: "Desconocido" };
+    }
   } catch (error) {
     console.error("Error en la solicitud de equipo", error);
-    return "Desconocido"; // Si hay error, devolvemos "Desconocido"
+    return { id: "Desconocido", nombre: "Desconocido" }; // En caso de error, devolvemos "Desconocido"
   }
 };
+
 
 // Función auxiliar para calcular la edad
 const calcularEdad = (fechaNacimiento: string): number => {

@@ -49,7 +49,7 @@ export default function Home() {
           ))}
         </select>
       </div>
-      <table className="" style={{ width: "100%", textAlign: "left" }}>
+      <table className="bg-black text-white" style={{ width: "100%", textAlign: "left" }}>
         <thead style={{ fontFamily: 'titulos'}}>
           <tr>
             <th>Pos.</th>
@@ -70,15 +70,15 @@ export default function Home() {
           pilotos.map((piloto, index) => {
             const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
             return (
-              <tr key={piloto.id} className={colorClase}>
+              <tr key={piloto.id} className={`${colorClase} border-b border-red-600 last:border-0`}>
                 <td>{index + 1}</td>
                 <td >
                   <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${piloto.id}`}>{piloto.nombre}</Link>
                 </td>
                 <td>{piloto.numeroPiloto}</td>
                 <td>
-                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/equipos/${piloto.equipoId}`}>
-                  {piloto.equipoId}
+                <Link className="hover:text-red-600 hover:underline hover:font-bold " href={`/equipos/${piloto.equipoId}`}>
+                  {piloto.equipoNombre}
                 </Link></td>
                 <td>{piloto.victorias}</td>
                 <td>{piloto.podios}</td>

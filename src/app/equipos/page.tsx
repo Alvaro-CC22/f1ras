@@ -103,7 +103,7 @@ const Equipos = () => {
   }
 
   return (
-    <div className="w-fit">
+    <div className=" w-fit">
       <Navbar />
       <h1 style={{ fontFamily: 'nombres'}} className="text-xl pt-5">Equipos de F1 ({anio})</h1>
       <div className="text-lg pt-5 pb-3" style={{ fontFamily: 'titulos'}}>
@@ -129,41 +129,53 @@ const Equipos = () => {
           textAlign: "left",
         }}
       >
-        <thead style={{ fontFamily: 'titulos'}}>
+        <thead className="bg-black text-white" style={{ fontFamily: 'titulos'}}>
           <tr>
             <th style={{ width: "20%" }}>Nombre</th>
             <th style={{ width: "15%" }}>País</th>
             <th style={{ width: "20%" }}>Pilotos</th>
           </tr>
         </thead>
-        <tbody style={{ fontFamily: 'normal'}} >
-          {equipos.map((equipo) => (
-            <tr key={equipo.id} className="border-b border-gray-300 last:border-0">
-              <td
-                style={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-                
-              >
-                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/equipos/${anio}/${equipo.id}`}>
-                  {equipo.nombre}
-                </Link>
-              </td>
-              <td>{obtenerPaisDesdeNacionalidad(equipo.pais)}</td>
-              <td >
-                {equipo.pilotos.map((piloto) => (
-                  <div  key={piloto.id}>
-                    <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${anio}/${piloto.id}`}>
-                      {piloto.nombre} ({piloto.acronimo})
-                    </Link>
-                  </div>
-                ))}
-              </td>
-            </tr>
-          ))}
+        <tbody style={{ fontFamily: 'normal' }}>
+          {equipos
+            .map((equipo, index) => (
+              <tr key={equipo.id} className={`${index % 2 === 0 ? 'bg-red-600 text-white' : 'bg-white'} border-b border-black last:border-0`}>
+                <td
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <Link
+                    className={`${
+                      index % 2 === 0 ? 'hover:text-black' : 'hover:text-red-600'
+                    } hover:underline hover:font-bold`}
+                    href={`/equipos/${equipo.id}`}
+                  >
+                    {equipo.nombre}
+                  </Link>
+                </td>
+                <td>{obtenerPaisDesdeNacionalidad(equipo.pais)}</td>
+                <td>
+                  {equipo.pilotos.map((piloto) => (
+                    <div key={piloto.id}>
+                      <Link
+                        className={`${
+                          index % 2 === 0 ? 'hover:text-black' : 'hover:text-red-600'
+                        } hover:underline hover:font-bold`}
+                        href={`/pilotos/${piloto.id}`}
+                      >
+                        {piloto.nombre} ({piloto.acronimo})
+                      </Link>
+                    </div>
+                  ))}
+                </td>
+              </tr>
+            ))}
         </tbody>
+
+
       </table>
     </div>
   );

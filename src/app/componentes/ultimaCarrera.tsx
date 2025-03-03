@@ -15,6 +15,7 @@ type Resultados = {
     url: string;
   };
   Constructor: {
+    id: string;
     name: string;
     nationality: string;
     url: string;
@@ -47,6 +48,7 @@ export default function UltimaCarrera() {
         const response = await fetch("http://ergast.com/api/f1/current/last/results.json");
         const data = await response.json();
         setCarrera(data.MRData.RaceTable.Races[0]);
+        console.log(data);
       } catch (error) {
         console.error("Error al cargar los resultados de la última carrera:", error);
       } finally {
@@ -85,15 +87,15 @@ export default function UltimaCarrera() {
               return (
                 <tr key={index} className={colorClase ? colorClase : ""}>
                   <td>{resultado.position}</td>
-                  <td className="hover:text-red-500 hover:underline hover:font-bold">
-                    <Link href={`/pilotos/${resultado.Driver.driverId}`}>
+                  <td >
+                    <Link className="hover:text-red-500 hover:underline hover:font-bold" href={`/pilotos/${resultado.Driver.driverId}`}>
                       {resultado.Driver.givenName} {resultado.Driver.familyName}
                     </Link>
                   </td>
                   <td>
                     <Link
                       className="hover:text-red-500 hover:underline hover:font-bold"
-                      href={`/equipos/${resultado.Constructor.name}`}
+                      href={`/equipos/${resultado.Constructor.constructorId}`}
                     >
                       {resultado.Constructor.name}
                     </Link>

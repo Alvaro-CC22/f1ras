@@ -65,11 +65,13 @@ export default function Campeones() {
         </thead>
         <tbody style={{ fontFamily: 'normal'}}>
           {!loading ? (
-            campeonesData.map((campeon) => (
-              <tr key={campeon.anio}>
+            campeonesData.map((campeon, index) => (
+              <tr key={campeon.anio} className={`${index % 2 === 0 ? "bg-white text-black" : "bg-red-600 text-white " } border-b border-black last:border-0`}>
                 <td>{campeon.anio}</td>
                 <td>
-                <Link className="hover:text-red-500 hover:underline hover:font-bold " href={`/pilotos/${campeon.id}`}>{campeon.nombre}</Link></td>
+                <Link className={`${
+                      index % 2 === 0 ? 'hover:text-red-600' : 'hover:text-black'
+                    } hover:underline hover:font-bold`} href={`/pilotos/${campeon.id}`}>{campeon.nombre}</Link></td>
                 <td>{obtenerPaisDesdeNacionalidad(campeon.nacionalidad)}</td>
                 <td>{campeon.edadFormato}</td>
                 <td>{campeon.edadGanador}</td>

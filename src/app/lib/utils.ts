@@ -28,6 +28,8 @@ const nacionalidadAPais: Record<string, string> = {
   Colombian: "Colombia",
   Irish: "Irlanda",
   Swiss: "Suiza",
+  Argentine: "Argentina",
+  "South African": "Sudáfrica"
 };
   
   export function obtenerPaisDesdeNacionalidad(nacionalidad: string): string {

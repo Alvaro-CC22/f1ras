@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Equipos{% endblock %}
+
+{% block body %}
+    <h1>Lista de Equipos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Historia</th>
+                <th>Temporadas</th>
+                <th>Campeonatos</th>
+                <th>Victorias</th>
+                <th>Poles</th>
+                <th>Carreras</th>
+                <th>Fecha de Fundación</th>
+                <th>Puntos</th>
+                <th>Podios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo in equipos %}
+                <tr>
+                    <td>{{ equipo.id }}</td>
+                    <td>
+                        {% if equipo.imagen %}
+                            <img src="{{ asset('uploads/' ~ equipo.imagen) }}" alt="{{ equipo.id }}" width="100">
+                        {% else %}
+                            No hay imagen
+                        {% endif %}
+                    </td>
+                    <td>{{ equipo.historia }}</td>
+                    <td>{{ equipo.temporadas }}</td>
+                    <td>{{ equipo.campeonatos }}</td>
+                    <td>{{ equipo.victorias }}</td>
+                    <td>{{ equipo.poles }}</td>
+                    <td>{{ equipo.carreras }}</td>
+                    <td>{{ equipo.fundacion ? equipo.fundacion|date('d/m/Y') : 'Fecha no disponible' }}</td>
+                    <td>{{ equipo.puntos }}</td>
+                    <td>{{ equipo.podios }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">No hay equipos disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

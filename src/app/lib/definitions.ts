@@ -7,7 +7,8 @@ export interface Piloto {
     fechaNacimiento: string;
     numeroPiloto: number;
     puntos: number;
-    equipoId?: string;
+    equipoId: string;
+    equipoNombre: string;
     temporadas: number;
     campeonatos: number;
     victorias:number;
@@ -22,18 +23,19 @@ export interface Circuito {
     id: string; 
     nombre: string;
     pais: string; 
-    fechaInauguracion: string;
+    inauguracion: string;
     tipo: string;
     longitud: number;
     fecha: string;
     curvas: number;
     capacidad: number;
-    pilotoRecordId?: number;
+    historia: string;
+    idPiloto?: string;
     ultimoGanador: string | null;
     anioUltimoGanador: string | null;
     vueltaRapida: string | null;
     anioVueltaRapida: string | null;
-    tiempoVueltaRapida: string | null; 
+    vueltaRecord: string | null; 
     imagen: string; 
     bandera: string; 
 }
@@ -44,15 +46,19 @@ export interface Equipo {
     nombre: string;
     pais: string;
     base: string;
-    fechaInauguracion: string;
+    fundacion: string;
     pilotoId?: number;
     campeonatos: number;
+    campeonatosPilotos: string;
     carreras: number;
     victorias: number;
     podios: number;
     poles: number;
+    puntos: string;
     vueltasRapidas: number;    
     pilotos: Piloto[];
+    imagen: string; 
+    historia: string;
 }
 
 export interface Campeon {

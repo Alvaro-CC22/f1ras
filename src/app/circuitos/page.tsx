@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Circuito } from "../lib/definitions";
 import { añosDisponibles } from "../lib/const";
 import Navbar from "../componentes/navbar";
-import { fetchCircuitos, fetchDatosCircuito } from "../servicios/circuitos";
+import { fetchCircuitos, fetchUltimoGanadorCircuito } from "../servicios/circuitos";
+import Link from "next/link";
 
 const Circuitos = () => {
   const [circuitos, setCircuitos] = useState<Circuito[]>([]);
@@ -14,7 +15,7 @@ const Circuitos = () => {
   useEffect(() => {
     const obtenerCircuitos = async () => {
       setLoading(true);
-      const data = await fetchCircuitos(anio, fetchDatosCircuito, circuitosPorAnio, setCircuitosPorAnio);
+      const data = await fetchCircuitos(anio, fetchUltimoGanadorCircuito, circuitosPorAnio, setCircuitosPorAnio);
       setCircuitos(data);
       setLoading(false);
     };
@@ -58,7 +59,16 @@ const Circuitos = () => {
           ))}
         </select>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "20px",
+          maxWidth: "1900px",  // Ajusta este valor según tus necesidades  // Centra el grid horizontalmente
+          boxSizing: "border-box", // Asegura que los bordes y el padding no afecten el tamaño total
+          padding: "10px",
+        }}
+      >
         {circuitos.map((circuito) => (
           <div
             key={`${circuito.id}-${circuito.fecha}`}
@@ -68,9 +78,14 @@ const Circuitos = () => {
               padding: "10px",
               textAlign: "center",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              height: "100%",  // Evita que los elementos se salgan verticalmente
             }}
           >
-            <h2 className="hover:text-red-500 hover:underline hover:font-bold " style={{ fontFamily: 'nombres'}}>{circuito.nombre}</h2>
+            <h2 className="hover:text-red-500 hover:underline hover:font-bold" style={{ fontFamily: 'nombres' }}>
+              <Link className="hover:text-red-500 hover:underline hover:font-bold" href={`/circuitos/${circuito.id}`}>
+                {circuito.nombre}
+              </Link>
+            </h2>
             <img
               src={circuito.imagen}
               alt={`Trazado de ${circuito.nombre}`}
@@ -82,15 +97,17 @@ const Circuitos = () => {
                 borderRadius: "5px",
               }}
             />
-            <p style={{ fontFamily: 'normal'}}>
-              <strong style={{ fontFamily: 'titulos'}}>Fecha</strong>: {circuito.fecha}
+            <p style={{ fontFamily: 'normal' }}>
+              <strong style={{ fontFamily: 'titulos' }}>Fecha</strong>: {circuito.fecha}
             </p>
-            <p style={{ fontFamily: 'normal'}}>
-              <strong style={{ fontFamily: 'titulos'}}>País</strong>: {circuito.pais}
+            <p style={{ fontFamily: 'normal' }}>
+              <strong style={{ fontFamily: 'titulos' }}>País</strong>: {circuito.pais}
             </p>
-            <p style={{ fontFamily: 'normal'}}>
-              <strong style={{ fontFamily: 'titulos'}}>Último ganador</strong>: {circuito.ultimoGanador} (
-              {circuito.anioUltimoGanador})
+            <p style={{ fontFamily: 'normal' }}>
+              <strong style={{ fontFamily: 'titulos' }}>Último ganador</strong>: <Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/pilotos/${circuito.idPiloto}`}>
+                {circuito.ultimoGanador}
+              </Link> ({circuito.anioUltimoGanador})
+              
             </p>
           </div>
         ))}

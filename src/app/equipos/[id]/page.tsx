@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { obtenerPilotoPorId } from "../../servicios/pilotos"; // Asegúrate de que la ruta sea correcta
 import Navbar from "../../componentes/navbar";
-import { Piloto } from "../../lib/definitions"; // Importa la interfaz Piloto
+import { obtenerEquipoPorId } from "../../servicios/equipos"; // Asegúrate de que la ruta sea correcta
+import { Equipo } from "../../lib/definitions"; // Importa la interfaz Equipo
 import React from "react";
+import { obtenerPaisDesdeNacionalidad } from "@/app/lib/utils";
 
-export default function PilotoPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EquipoPage({ params }: { params: Promise<{ id: string }> }) {
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
+  const [equipo, setEquipo] = useState<Equipo | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Usamos React.use() para desempaquetar la promesa
   useEffect(() => {
     const fetchParams = async () => {
       const resolvedParams = await params;
@@ -19,42 +20,48 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
     fetchParams();
   }, [params]);
 
-  const [piloto, setPiloto] = useState<Piloto | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
   useEffect(() => {
-    if (!unwrappedParams) return; // Si aún no tenemos los parámetros, no hacemos nada
+    if (!unwrappedParams) return;
     const { id } = unwrappedParams;
 
-    const cargarDatosPiloto = async () => {
+    const cargarDatosEquipo = async () => {
       setLoading(true);
       try {
-        const datosPiloto = await obtenerPilotoPorId(id);
-        setPiloto(datosPiloto);
+        const datosEquipo = await obtenerEquipoPorId(id);
+        console.log("Datos del equipo:", datosEquipo); // Verifica los datos obtenidos
+        
+        // Usar directamente los datos obtenidos sin necesidad de validación adicional
+        if (datosEquipo) {
+          setEquipo(datosEquipo); // Asumimos que 'datosEquipo' ya está en el formato correcto
+        } else {
+          throw new Error("Datos del equipo no encontrados.");
+        }
       } catch (error) {
-        console.error("Error cargando los datos del piloto:", error);
+        console.error("Error cargando los datos del equipo:", error);
       } finally {
         setLoading(false);
       }
     };
+    
 
-    cargarDatosPiloto();
+
+    cargarDatosEquipo();
   }, [unwrappedParams]);
 
   if (loading) {
     return (
       <div className="w-fit">
         <Navbar />
-        <p>Cargando datos del piloto...</p>
+        <p style={{ fontFamily: 'normal' }}>Cargando datos del equipo...</p>
       </div>
     );
   }
 
-  if (!piloto) {
+  if (!equipo) {
     return (
       <div className="w-fit">
         <Navbar />
-        <p>Piloto no encontrado.</p>
+        <p style={{ fontFamily: 'normal' }}>Equipo no encontrado.</p>
       </div>
     );
   }
@@ -62,23 +69,67 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
   return (
     <div className="w-fit">
       <Navbar />
-      <h1>{`${piloto.nombre}`}</h1>
-      <p>Nombre: {piloto.nombre}</p>
-      <p>Edad: {piloto.edad}</p>
-      <p>País: {piloto.pais}</p>
-      <p>Fecha de Nacimiento: {new Date(piloto.fechaNacimiento).toLocaleDateString()}</p>
-      <p>Número Piloto: {piloto.numeroPiloto}</p>
-      <p>Puntos: {piloto.puntos}</p>
-      <p>Temporadas: {piloto.temporadas}</p>
-      <p>Campeonatos: {piloto.campeonatos}</p>
-      <p>Victorias: {piloto.victorias}</p>
-      <p>Podios: {piloto.podios}</p>
-      <p>Poles: {piloto.poles}</p>
-      <p>Vueltas récord: {piloto.vueltasRecord}</p>
-      <p>
-        Más información:{" "}
-        <a href={piloto.equipoId ? `/equipos/${piloto.equipoId}` : "#"}>Ver equipo</a>
-      </p>
+      <div className="flex">
+      <div className="mr-10 ml-6">
+        <h1 className="text-2xl" style={{ fontFamily: 'nombres' }}>{equipo.nombre}</h1>
+        {equipo.imagen && (
+          <img
+            src={`http://127.0.0.1:8000/uploads/${equipo.imagen}`}
+            alt={`Logo de ${equipo.nombre}`}
+            className="ml-10 h-60 mb-10 object-cover rounded"
+          />
+        )}
+        <table className="w-full border-collapse border border-gray-300">
+        <tbody>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-white" style={{ fontFamily: 'titulos' }}>País</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{obtenerPaisDesdeNacionalidad(equipo.pais)}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-red-600" style={{ fontFamily: 'titulos' }}>Fundación</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{new Date(equipo.fundacion).toLocaleDateString()}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-white" style={{ fontFamily: 'titulos' }}>Campeonatos de Constructores</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.campeonatos}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-red-600" style={{ fontFamily: 'titulos' }}>Campeonatos de Piloto</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.campeonatosPilotos}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-white" style={{ fontFamily: 'titulos' }}>Victorias</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.victorias}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-red-600" style={{ fontFamily: 'titulos' }}>Podios</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.podios}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-white" style={{ fontFamily: 'titulos' }}>Poles</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.poles}</td>
+          </tr>
+          <tr className="border border-gray-300">
+            <td className="p-2 bg-red-600" style={{ fontFamily: 'titulos' }}>Puntos</td>
+            <td className="p-2 bg-black text-white" style={{ fontFamily: 'normal' }}>{equipo.puntos}</td>
+          </tr>
+        </tbody>
+      </table>
+        <p><span style={{ fontFamily: 'titulos' }}>País<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{obtenerPaisDesdeNacionalidad(equipo.pais)}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Fundación<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{new Date(equipo.fundacion).toLocaleDateString()}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Campeonatos de Constructores<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.campeonatos}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Campeonatos de Piloto<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.campeonatosPilotos}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Victorias<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.victorias}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Podios<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.podios}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Poles<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.poles}</span></p>
+    <p><span style={{ fontFamily: 'titulos' }}>Puntos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.puntos}</span></p>
+    
+      </div>
+      <div className="flex-1 max-w-screen-xl mr-10 mx-auto">
+        <h2 className="text-xl mb-10" style={{ fontFamily: 'titulos' }}>Historia</h2>
+        <p style={{ fontFamily: 'normal' }}>{equipo.historia || "Historia no disponible."}</p>
+      </div>
+    </div>
     </div>
   );
 }

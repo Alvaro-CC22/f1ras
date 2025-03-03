@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Circuitos{% endblock %}
+
+{% block body %}
+    <h1>Lista de Circuitos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Longitud</th>
+                <th>Curvas</th>
+                <th>Vuelta Récord</th>
+                <th>Inauguración</th>
+                <th>Historia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for circuito in circuitos %}
+                <tr>
+                    <td>{{ circuito.id }}</td>
+                    <td>{{ circuito.longitud }}</td>
+                    <td>{{ circuito.curvas }}</td>
+                    <td>{{ circuito.vueltaRecord }}</td>
+                    <td>{{ circuito.inauguracion }}</td>
+                    <td>{{ circuito.historia }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No hay circuitos disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
