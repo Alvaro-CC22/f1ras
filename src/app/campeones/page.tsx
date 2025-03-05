@@ -5,7 +5,7 @@ import { Campeon } from "../lib/definitions";
 import { Piloto } from "../lib/definitions";
 import Navbar from "../componentes/navbar";
 import Link from "next/link";
-import { obtenerCampeones } from "../servicios/campeones"; // Importa el servicio
+import { obtenerCampeones } from "../servicios/campeones";
 import { obtenerPaisDesdeNacionalidad } from "../lib/utils";
 
 const ITEMS_POR_PAGINA = 15;
@@ -13,30 +13,28 @@ const ITEMS_POR_PAGINA = 15;
 export default function Campeones() {
   const [campeonesData, setCampeonesData] = useState<Campeon[]>([]);
   const [paginaActual, setPaginaActual] = useState(1);
-  const [total, setTotal] = useState(0); // Estado para almacenar el total
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Calcular el offset directamente desde la paginaActual
   const offset = (paginaActual - 1) * ITEMS_POR_PAGINA;
 
   useEffect(() => {
         setLoading(true); 
     const cargarCampeones = async () => {
       const { campeones, total } = await obtenerCampeones(ITEMS_POR_PAGINA, offset); 
-      console.log("Datos recibidos:", campeones); // Verifica si los datos son correctos
+      console.log("Datos recibidos:", campeones); 
       setCampeonesData(campeones);
-      setTotal(total); // Almacena el total en el estado
+      setTotal(total); 
       setLoading(false);
     };
 
     cargarCampeones();
-  }, [paginaActual]); // Solo actualiza cuando cambia la página
+  }, [paginaActual]);
 
-  // Cálculo de los campeones a mostrar según la página actual
   const inicio = (paginaActual - 1) * ITEMS_POR_PAGINA;
   const fin = inicio + ITEMS_POR_PAGINA;
 
-  const totalPaginas = Math.ceil(total / ITEMS_POR_PAGINA); // Usamos el total de la API
+  const totalPaginas = Math.ceil(total / ITEMS_POR_PAGINA); 
 
   
 

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../../componentes/navbar";
-import { obtenerCircuitoPorId } from "../../servicios/circuitos"; // Asegúrate de que la ruta sea correcta
-import { Circuito } from "../../lib/definitions"; // Importa la interfaz Circuito
+import { obtenerCircuitoPorId } from "../../servicios/circuitos"; 
+import { Circuito } from "../../lib/definitions"; 
 import React from "react";
 import Link from "next/link";
 

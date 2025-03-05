@@ -1,5 +1,5 @@
 <?php
-// src/Form/CircuitoType.php
+
 namespace App\Form;
 
 use App\Entity\Circuito;
@@ -41,8 +41,8 @@ class CircuitoType extends AbstractType
             ])
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen del circuito',
-                'mapped' => false,  // Evita que Symfony intente guardar el archivo directamente en la entidad
-                'required' => false, // Este campo es opcional
+                'mapped' => false,  
+                'required' => false, 
             ]);
     }
 

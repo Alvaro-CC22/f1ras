@@ -26,7 +26,7 @@ const ContadorRegresivo = () => {
 
       if (proximaCarrera) {
         setFechaCarrera(new Date(`${proximaCarrera.date}T${proximaCarrera.time}`));
-        setNombreCarrera(proximaCarrera.raceName); // Guardar el nombre de la carrera
+        setNombreCarrera(proximaCarrera.raceName);
         setIdCarrera(proximaCarrera.Circuit.circuitId);
         setCircuito(proximaCarrera.Circuit.circuitName);
         console.log(proximaCarrera);
@@ -40,7 +40,7 @@ const ContadorRegresivo = () => {
     }
   };
 
-  // Calcular el tiempo restante hasta la próxima carrera
+  // Calcula el tiempo restante hasta la próxima carrera
   useEffect(() => {
     if (fechaCarrera) {
       const intervalo = setInterval(() => {
@@ -66,7 +66,7 @@ const ContadorRegresivo = () => {
     }
   }, [fechaCarrera]);
 
-  // Cargar la próxima carrera al montar el componente
+  
   useEffect(() => {
     fetchProximaCarrera();
   }, []);
@@ -82,8 +82,8 @@ const ContadorRegresivo = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "20px"}}>
       <h2 style={{ fontFamily: 'titulos' }}>Próxima Carrera</h2>
-      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{nombreCarrera}</Link></p> {/* Mostrar el nombre del Gran Premio */}
-      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{circuito}</Link></p> {/* Mostrar el nombre del Gran Premio */}
+      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{nombreCarrera}</Link></p> 
+      <p style={{ fontFamily: 'nombres' }}><Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/circuitos/${idCarrera}`}>{circuito}</Link></p> 
       <p style={{ fontFamily: 'normal' }}>Fecha: {fechaCarrera.toLocaleString()}</p>
       <h3 style={{ fontFamily: 'normal' }}>Tiempo restante: {tiempoRestante}</h3>
     </div>

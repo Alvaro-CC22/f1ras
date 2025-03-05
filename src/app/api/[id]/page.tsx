@@ -1,16 +1,16 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; // Si usas el enrutador clásico, pero con el nuevo enrutador puedes prescindir de esto.
+import { useRouter } from 'next/router'; 
 
 const PilotoDetalle = ({ params }: { params: { id: string } }) => {
-  const [piloto, setPiloto] = useState<any>(null); // Asegúrate de que sea un objeto
+  const [piloto, setPiloto] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { id } = params; // Obtén el id del piloto desde params
+  const { id } = params; // Obtenemos el id del piloto desde params
 
   useEffect(() => {
-    if (!id) return; // Si no hay id, no hacemos nada
+    if (!id) return; 
 
     // Realizamos la petición a la API para obtener los datos del piloto específico
     fetch(`http://127.0.0.1:8000/api/piloto/${id}`)
@@ -21,14 +21,14 @@ const PilotoDetalle = ({ params }: { params: { id: string } }) => {
         return response.json();
       })
       .then((data) => {
-        setPiloto(data); // Guardamos los datos del piloto
-        setLoading(false); // Terminamos el loading
+        setPiloto(data); 
+        setLoading(false);
       })
       .catch((error) => {
-        setError(error.message); // Capturamos cualquier error
-        setLoading(false); // Terminamos el loading en caso de error
+        setError(error.message); 
+        setLoading(false); 
       });
-  }, [id]); // Este efecto se ejecuta cuando el id cambia
+  }, [id]); 
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;

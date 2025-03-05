@@ -1,9 +1,8 @@
-// pages/pilotos.js
 "use client";
 import { useEffect, useState } from 'react';
 
 const Pilotos = () => {
-  const [pilotos, setPilotos] = useState<any[]>([]); // Asegúrate de que sea un arreglo
+  const [pilotos, setPilotos] = useState<any[]>([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,19 +16,18 @@ const Pilotos = () => {
         return response.json();
       })
       .then((data) => {
-        // Verifica que data sea un arreglo
         if (Array.isArray(data)) {
-          setPilotos(data); // Guardamos los datos si son un arreglo
+          setPilotos(data); 
         } else {
           setError('La respuesta de la API no es un arreglo');
         }
-        setLoading(false); // Terminamos el loading
+        setLoading(false); 
       })
       .catch((error) => {
-        setError(error.message); // Capturamos cualquier error
-        setLoading(false); // Terminamos el loading en caso de error
+        setError(error.message); 
+        setLoading(false); 
       });
-  }, []); // Solo se ejecuta una vez cuando el componente se monta
+  }, []); 
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;

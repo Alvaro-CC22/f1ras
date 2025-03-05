@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../../componentes/navbar";
-import { obtenerEquipoPorId } from "../../servicios/equipos"; // Asegúrate de que la ruta sea correcta
-import { Equipo } from "../../lib/definitions"; // Importa la interfaz Equipo
+import { obtenerEquipoPorId } from "../../servicios/equipos"; 
+import { Equipo } from "../../lib/definitions";
 import React from "react";
 import { obtenerPaisDesdeNacionalidad } from "@/app/lib/utils";
 
@@ -28,11 +28,10 @@ export default function EquipoPage({ params }: { params: Promise<{ id: string }>
       setLoading(true);
       try {
         const datosEquipo = await obtenerEquipoPorId(id);
-        console.log("Datos del equipo:", datosEquipo); // Verifica los datos obtenidos
+        console.log("Datos del equipo:", datosEquipo);
         
-        // Usar directamente los datos obtenidos sin necesidad de validación adicional
         if (datosEquipo) {
-          setEquipo(datosEquipo); // Asumimos que 'datosEquipo' ya está en el formato correcto
+          setEquipo(datosEquipo);
         } else {
           throw new Error("Datos del equipo no encontrados.");
         }
@@ -115,15 +114,7 @@ export default function EquipoPage({ params }: { params: Promise<{ id: string }>
           </tr>
         </tbody>
       </table>
-        <p><span style={{ fontFamily: 'titulos' }}>País<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{obtenerPaisDesdeNacionalidad(equipo.pais)}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Fundación<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{new Date(equipo.fundacion).toLocaleDateString()}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Campeonatos de Constructores<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.campeonatos}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Campeonatos de Piloto<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.campeonatosPilotos}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Victorias<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.victorias}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Podios<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.podios}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Poles<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.poles}</span></p>
-    <p><span style={{ fontFamily: 'titulos' }}>Puntos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{equipo.puntos}</span></p>
-    
+        
       </div>
       <div className="flex-1 max-w-screen-xl mr-10 mx-auto">
         <h2 className="text-xl mb-10" style={{ fontFamily: 'titulos' }}>Historia</h2>

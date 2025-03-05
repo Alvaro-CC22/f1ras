@@ -20,7 +20,7 @@ export const convertirTiempoASegundos = (tiempo: string): number => {
           const ganador = carrera.Results[0]?.Driver;
           if (ganador) {
             return {
-              id: ganador.driverId, // Agregamos el ID del piloto
+              id: ganador.driverId,
               resultado: `${ganador.givenName} ${ganador.familyName}`,
               anio: `${anio}`,
             };
@@ -46,7 +46,7 @@ export const convertirTiempoASegundos = (tiempo: string): number => {
     circuitosPorAnio: any,
     setCircuitosPorAnio: (data: any) => void
   ): Promise<any[]> => {
-    // Verificamos si ya han cargado los circuitos de ese año (para no hacer cargas innecesarias)
+    // Verifico si ya han cargado los circuitos de ese año, para no hacer cargas innecesarias
     if (circuitosPorAnio[anio]) {
       return circuitosPorAnio[anio];
     }
@@ -61,7 +61,6 @@ export const convertirTiempoASegundos = (tiempo: string): number => {
         json.MRData.RaceTable.Races.map(async (carrera: any) => {
           const circuitoId = carrera.Circuit.circuitId;
   
-          // Obtener los datos del ganador de cada circuito
           const [ultimoGanador] = await Promise.all([
             fetchUltimoGanadorCircuito(circuitoId, "ganador"),
           ]);
@@ -79,7 +78,6 @@ export const convertirTiempoASegundos = (tiempo: string): number => {
         })
       );
   
-      // Guardamos los circuitos cargados en cache
       setCircuitosPorAnio((prevCache: any) => ({
         ...prevCache,
         [anio]: circuitosData,
@@ -106,10 +104,10 @@ const obtenerCircuitoApiPorId = async (id: string) => {
   }
 };
 
-// Función para obtener los datos de un circuito combinando la API externa (Ergast) y la API local
+// Función para obtener los datos de un circuito combinando la API externa y la API local
 export const obtenerCircuitoPorId = async (id: string): Promise<Circuito | null> => {
   try {
-    // Obtener los datos de la API externa (Ergast)
+    // Obtener los datos de la API externa
     const response = await fetch(`https://ergast.com/api/f1/circuits/${id}.json`);
     if (!response.ok) {
       throw new Error(`Error al obtener los datos del circuito con ID: ${id} desde Ergast`);
@@ -121,26 +119,24 @@ export const obtenerCircuitoPorId = async (id: string): Promise<Circuito | null>
       return null;
     }
 
-    // Obtener los datos de la API local (imagen, historia, etc.)
+    // Obtener los datos de la API local
     const datosCircuitoApiLocal = await obtenerCircuitoApiPorId(id);
 
-    // Obtener el último ganador del circuito
     const ultimoGanadorData = await fetchUltimoGanadorCircuito(id);
 
-    // Crear el objeto Circuito combinando los datos de ambas APIs
     const circuito: Circuito = {
       id: circuitoData.circuitId,
       nombre: circuitoData.circuitName,
       pais: `${circuitoData.Location.country} (${circuitoData.Location.locality})`,
-      longitud: datosCircuitoApiLocal.longitud || "", // De la API local
-      curvas: datosCircuitoApiLocal.curvas || "", // De la API local
-      vueltaRecord: datosCircuitoApiLocal.vueltaRecord || "", // De la API local
-      inauguracion: datosCircuitoApiLocal.inauguracion || "Desconocida", // De la API local
-      historia: datosCircuitoApiLocal.historia || "", // De la API local
-      imagen: `/circuitos/${circuitoData.circuitId}.avif`, // La imagen del circuito
-      ultimoGanador: ultimoGanadorData.resultado, // Último ganador
+      longitud: datosCircuitoApiLocal.longitud || "", 
+      curvas: datosCircuitoApiLocal.curvas || "", 
+      vueltaRecord: datosCircuitoApiLocal.vueltaRecord || "", 
+      inauguracion: datosCircuitoApiLocal.inauguracion || "Desconocida", 
+      historia: datosCircuitoApiLocal.historia || "", 
+      imagen: `/circuitos/${circuitoData.circuitId}.avif`, 
+      ultimoGanador: ultimoGanadorData.resultado, 
       anioUltimoGanador: ultimoGanadorData.anio,
-      idPiloto: ultimoGanadorData.id, // Año del último ganador
+      idPiloto: ultimoGanadorData.id,
     };
 
     return circuito;

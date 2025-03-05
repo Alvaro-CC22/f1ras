@@ -14,13 +14,13 @@ export default function Home() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        setLoading(true); // Mostrar loading al empezar a cargar
+        setLoading(true); 
         const equiposData = await obtenerClasificacionConstructores(anio);
         setEquipos(equiposData);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
       } finally {
-        setLoading(false); // Dejar de mostrar loading después de cargar
+        setLoading(false); 
       }
     };
 
@@ -47,7 +47,7 @@ export default function Home() {
             </tr>
           ) : (
             equipos.map((equipo, index) => {
-              const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
+              const colorClase = obtenerColorPorPosicion(index + 1); 
               return (
                 <tr key={equipo.nombre} className={`${colorClase} border-b border-red-600 last:border-0`}>
                   <td>{equipo.posicion}</td>

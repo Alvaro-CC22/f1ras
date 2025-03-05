@@ -39,7 +39,7 @@ export default function UltimaCarrera() {
   const traducirEstado = (status: string) => {
     if (status === "Finished") return "Finalizado";
     if (status.includes("Lap")) return `${status.split(" ")[0]} Vuelta(s)`;
-    return "DNF"; // Por defecto si no es ninguno de los anteriores
+    return "DNF";
   };
 
   useEffect(() => {
@@ -80,9 +80,9 @@ export default function UltimaCarrera() {
           </thead>
           <tbody style={{ fontFamily: "normal" }}>
             {carrera?.Results.map((resultado, index) => {
-              const colorClase = obtenerColorPorPosicion(Number(resultado.position)); // Aplicar color basado en posición
+              const colorClase = obtenerColorPorPosicion(Number(resultado.position)); 
               const tiempoOEstado =
-                resultado.Time?.time || traducirEstado(resultado.status); // Mostrar tiempo o traducir el estado
+                resultado.Time?.time || traducirEstado(resultado.status); 
 
               return (
                 <tr key={index} className={colorClase ? colorClase : ""}>

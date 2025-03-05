@@ -13,10 +13,13 @@ export interface Piloto {
     campeonatos: number;
     victorias:number;
     podios: number;
-    poles:number;
+    poles: number;
+    equipoActual: string;
     vueltasRecord: number;
     vueltasRecordId?: number;
-    retirado:boolean;
+    retirado: boolean;
+    imagen: string;
+    biografia: string;
 }
 
 export interface Circuito {

@@ -1,5 +1,4 @@
 <?php
-// src/Form/PilotoType.php
 namespace App\Form;
 
 use App\Entity\Piloto;
@@ -20,13 +19,13 @@ class PilotoType extends AbstractType
             ])
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen del piloto',
-                'mapped' => false,  // Importante: Evita que Symfony intente guardar el archivo directamente en la entidad
+                'mapped' => false, 
                 'required' => false,
             ])
             ->add('EquipoActual', FileType::class, [
-                'label' => 'Imagen del equipo actual', // Para manejar la imagen del equipo
-                'mapped' => false,  // Importante: Evita que Symfony intente guardar el archivo directamente en la entidad
-                'required' => false, // Este campo es opcional, solo se subirá si el usuario lo proporciona
+                'label' => 'Imagen del equipo actual', 
+                'mapped' => false, 
+                'required' => false,
             ])
             ->add('biografia')
             ->add('temporadas')

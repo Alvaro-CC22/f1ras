@@ -1,5 +1,5 @@
 <?php
-// src/Form/EquipoType.php
+
 
 namespace App\Form;
 
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType; // Para campos numéricos
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class EquipoType extends AbstractType
 {
@@ -24,7 +24,7 @@ class EquipoType extends AbstractType
             ])
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen del equipo',
-                'mapped' => false,  // Evita que Symfony intente guardar el archivo directamente en la entidad
+                'mapped' => false,  
                 'required' => false,
             ])
             ->add('historia', TextareaType::class, [
@@ -35,36 +35,36 @@ class EquipoType extends AbstractType
                 'label' => 'Número de temporadas',
                 'required' => true,
             ])
-            ->add('campeonatos', TextType::class, [  // Cambiado a IntegerType
+            ->add('campeonatos', TextType::class, [  
                 'label' => 'Número de campeonatos',
                 'required' => true,
             ])
-            ->add('victorias', TextType::class, [  // Cambiado a IntegerType
+            ->add('victorias', TextType::class, [ 
                 'label' => 'Número de victorias',
                 'required' => true,
             ])
-            ->add('poles', TextType::class, [  // Cambiado a IntegerType
+            ->add('poles', TextType::class, [ 
                 'label' => 'Número de poles',
                 'required' => true,
             ])
-            ->add('carreras', TextType::class, [  // Cambiado a IntegerType
+            ->add('carreras', TextType::class, [ 
                 'label' => 'Número de carreras',
                 'required' => true,
             ])
             ->add('fundacion', DateType::class, [
                 'label' => 'Fecha de fundación',
-                'widget' => 'single_text',  // Usar un solo campo para la fecha
+                'widget' => 'single_text', 
                 'required' => true,
             ])
             ->add('campeonatoPiloto', TextType::class, [
                 'label' => 'Campeonato de pilotos',
                 'required' => true,
             ])
-            ->add('puntos', TextType::class, [  // Cambiado a IntegerType
+            ->add('puntos', TextType::class, [  
                 'label' => 'Puntos',
                 'required' => true,
             ])
-            ->add('podios', TextType::class, [  // Cambiado a IntegerType
+            ->add('podios', TextType::class, [ 
                 'label' => 'Podios',
                 'required' => true,
             ]);
@@ -73,7 +73,7 @@ class EquipoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Equipo::class,  // Relacionamos el formulario con la entidad Equipo
+            'data_class' => Equipo::class, 
         ]);
     }
 }

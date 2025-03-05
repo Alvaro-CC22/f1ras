@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     const cargarDatosPilotos = async () => {
-      setLoading(true); // Iniciar carga
+      setLoading(true); 
       try {
         const pilotosBase = await obtenerPilotosPorAnio(anio);
 
@@ -28,9 +28,9 @@ export default function Home() {
             return {
               ...pilotoBase,
               edad: anio - new Date(fechaNacimiento).getFullYear(),
-              equipoId, // Aquí asignas el id del equipo
-              equipoNombre, // Aquí asignas el nombre del equipo
-              retirado: false, // Suponiendo que no está retirado para esta temporada
+              equipoId, 
+              equipoNombre, 
+              retirado: false, 
             };
           })
         );
@@ -41,7 +41,7 @@ export default function Home() {
         console.error("Error cargando los datos:", error);
       } finally {
         
-        setLoading(false); // Finalizar la carga
+        setLoading(false); 
       }
     };
 

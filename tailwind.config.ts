@@ -14,7 +14,7 @@ export default {
         dorado: 'gold',
       },
       screens: {
-        lg: "1120px", // Breakpoint personalizado
+        lg: "1120px", 
       },
     },
   },

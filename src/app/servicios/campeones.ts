@@ -17,7 +17,7 @@ export const obtenerCampeones = async (limit: number, offset: number): Promise<{
           const edadGanador = anio - fechaNacimiento.getFullYear();
 
           return {
-              id: piloto.driverId, // Agregado: ID único del piloto
+              id: piloto.driverId, 
               anio,
               nombre: `${piloto.givenName} ${piloto.familyName}`,
               nacionalidad: piloto.nationality,

@@ -15,7 +15,6 @@ import { Equipo } from "../lib/definitions";
       return [];
     }
 
-    // Extraer clasificación con nombre del equipo, puntos y posición
     const clasificacion = standingsList[0].ConstructorStandings.map((standing: any) => ({
       nombre: standing.Constructor.name,
       posicion: parseInt(standing.position, 10),
@@ -123,7 +122,7 @@ export const obtenerClasificacionConstructores = async (anio: number) => {
 };
 
 export const obtenerEquipoPorId = async (id: string): Promise<Equipo> => {
-  // Obtener los datos de la API externa (Ergast)
+  // Obtiene los datos de la API externa
   const response = await fetch(`https://ergast.com/api/f1/constructors/${id}.json`);
   const data = await response.json();
 
@@ -132,15 +131,14 @@ export const obtenerEquipoPorId = async (id: string): Promise<Equipo> => {
     throw new Error('No se encontraron datos para el equipo');
   }
 
-  const equipoData = data.MRData.ConstructorTable.Constructors[0]; // Acceso correcto a los datos del equipo
+  const equipoData = data.MRData.ConstructorTable.Constructors[0];
 
-  // Obtener los datos de la API local (por ejemplo, imagen, historia, etc.)
+  // Obtener los datos de la API local
   let datosEquipoApiLocal = {};
   try {
     datosEquipoApiLocal = await obtenerEquipoApiPorId(id);
   } catch (error) {
     console.error('Error al obtener los datos del equipo desde la API local:', error);
-    // Puedes asignar valores predeterminados en caso de fallo
     datosEquipoApiLocal = {
       imagen: '',
       historia: '',
@@ -153,20 +151,19 @@ export const obtenerEquipoPorId = async (id: string): Promise<Equipo> => {
     };
   }
 
-  // Aquí ya tienes todos los datos correctos y no necesitamos validar 'Constructors' nuevamente
   const equipo: Equipo = {
     id: equipoData.constructorId,
     nombre: equipoData.name,
-    imagen: datosEquipoApiLocal.imagen || "", // Si tienes el campo imagen
-    historia: datosEquipoApiLocal.historia || "", // Si tienes el campo historia
-    podios: datosEquipoApiLocal.podios || 0, // De la API local
-    puntos: datosEquipoApiLocal.puntos || 0, // De la API local (puntos)
-    victorias: datosEquipoApiLocal.victorias || 0, // De la API local (victorias)
-    poles: datosEquipoApiLocal.poles || 0, // De la API local (poles)
+    imagen: datosEquipoApiLocal.imagen || "",
+    historia: datosEquipoApiLocal.historia || "",
+    podios: datosEquipoApiLocal.podios || 0,
+    puntos: datosEquipoApiLocal.puntos || 0,
+    victorias: datosEquipoApiLocal.victorias || 0,
+    poles: datosEquipoApiLocal.poles || 0,
     fundacion: datosEquipoApiLocal.fundacion || "",
-    campeonatos: datosEquipoApiLocal.campeonatos || 0, // De la API local (campeonatos)
-    campeonatosPilotos: datosEquipoApiLocal.campeonatoPiloto || 0, // De la API local
-    pais: equipoData.nationality || "", // Usamos el país de la API externa
+    campeonatos: datosEquipoApiLocal.campeonatos || 0,
+    campeonatosPilotos: datosEquipoApiLocal.campeonatoPiloto || 0,
+    pais: equipoData.nationality || "",
   };
 
   return equipo;

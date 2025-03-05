@@ -15,13 +15,13 @@ export default function Home() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        setLoading(true); // Mostrar loading al empezar a cargar
+        setLoading(true);
         const pilotosData = await obtenerClasificacionPilotosDetallada(anio);
         setPilotos(pilotosData);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
       } finally {
-        setLoading(false); // Dejar de mostrar loading después de cargar
+        setLoading(false); 
       }
     };
 
@@ -68,7 +68,7 @@ export default function Home() {
             </tr>
           ) : (
           pilotos.map((piloto, index) => {
-            const colorClase = obtenerColorPorPosicion(index + 1); // Obtener la clase de color
+            const colorClase = obtenerColorPorPosicion(index + 1); 
             return (
               <tr key={piloto.id} className={`${colorClase} border-b border-red-600 last:border-0`}>
                 <td>{index + 1}</td>

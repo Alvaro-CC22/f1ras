@@ -60,58 +60,38 @@ const Circuitos = () => {
         </select>
       </div>
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "20px",
-          maxWidth: "1900px",  // Ajusta este valor según tus necesidades  // Centra el grid horizontalmente
-          boxSizing: "border-box", // Asegura que los bordes y el padding no afecten el tamaño total
-          padding: "10px",
-        }}
-      >
-        {circuitos.map((circuito) => (
-          <div
-            key={`${circuito.id}-${circuito.fecha}`}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "10px",
-              textAlign: "center",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              height: "100%",  // Evita que los elementos se salgan verticalmente
-            }}
-          >
-            <h2 className="hover:text-red-500 hover:underline hover:font-bold" style={{ fontFamily: 'nombres' }}>
-              <Link className="hover:text-red-500 hover:underline hover:font-bold" href={`/circuitos/${circuito.id}`}>
-                {circuito.nombre}
-              </Link>
-            </h2>
-            <img
-              src={circuito.imagen}
-              alt={`Trazado de ${circuito.nombre}`}
-              style={{
-                width: "100%",
-                height: "auto",
-                maxHeight: "200px",
-                objectFit: "contain",
-                borderRadius: "5px",
-              }}
-            />
-            <p style={{ fontFamily: 'normal' }}>
-              <strong style={{ fontFamily: 'titulos' }}>Fecha</strong>: {circuito.fecha}
-            </p>
-            <p style={{ fontFamily: 'normal' }}>
-              <strong style={{ fontFamily: 'titulos' }}>País</strong>: {circuito.pais}
-            </p>
-            <p style={{ fontFamily: 'normal' }}>
-              <strong style={{ fontFamily: 'titulos' }}>Último ganador</strong>: <Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/pilotos/${circuito.idPiloto}`}>
-                {circuito.ultimoGanador}
-              </Link> ({circuito.anioUltimoGanador})
-              
-            </p>
-          </div>
-        ))}
-      </div>
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-[1900px] p-3"
+>
+  {circuitos.map((circuito) => (
+    <div
+      key={`${circuito.id}-${circuito.fecha}`}
+      className="border border-gray-300 rounded-lg p-4 text-center shadow-md h-full"
+    >
+      <h2 className="hover:text-red-500 hover:underline hover:font-bold" style={{ fontFamily: 'nombres' }}>
+        <Link className="hover:text-red-500 hover:underline hover:font-bold" href={`/circuitos/${circuito.id}`}>
+          {circuito.nombre}
+        </Link>
+      </h2>
+      <img
+        src={circuito.imagen}
+        alt={`Trazado de ${circuito.nombre}`}
+        className="w-full h-auto max-h-[200px] object-contain rounded-md"
+      />
+      <p style={{ fontFamily: 'normal' }}>
+        <strong style={{ fontFamily: 'titulos' }}>Fecha</strong>: {circuito.fecha}
+      </p>
+      <p style={{ fontFamily: 'normal' }}>
+        <strong style={{ fontFamily: 'titulos' }}>País</strong>: {circuito.pais}
+      </p>
+      <p style={{ fontFamily: 'normal' }}>
+        <strong style={{ fontFamily: 'titulos' }}>Último ganador</strong>: <Link className="hover:text-red-600 hover:underline hover:font-bold" href={`/pilotos/${circuito.idPiloto}`}>
+          {circuito.ultimoGanador}
+        </Link> ({circuito.anioUltimoGanador})
+      </p>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

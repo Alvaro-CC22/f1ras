@@ -16,12 +16,12 @@ const Navbar = () => {
       setIsSmallScreen(window.innerWidth < 1120);
     };
 
-    handleResize(); // Configuración inicial
+    handleResize();  
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  // Estilo condicional del background
+  
   
   const getMenuBackgroundStyle = () => {
     
@@ -30,7 +30,7 @@ const Navbar = () => {
         background: "black",
         border: "8px double red",
         borderRadius: "10px",
-        maxWidth: "320px", // Limitar el ancho mínimo
+        maxWidth: "320px", 
       };
     } else if (isSmallScreen) {
       return {

@@ -67,13 +67,11 @@ export const calcularPodiosPiloto = async (anio: number, driverId: string): Prom
     return 0;
   }
 
-  // Filtramos las carreras donde el piloto quedó en una posición de podio (1, 2 o 3)
   const podios = carreras.filter((carrera: any) => {
     const resultado = carrera.Results.find((resultado: any) => resultado.Driver.driverId === driverId);
     return resultado && ["1", "2", "3"].includes(resultado.position);
   });
 
-  // Retornamos el número de podios (carreras en las que quedó en el podio)
   return podios.length;
 };
 
@@ -88,10 +86,10 @@ export const obtenerPrimerAnioParticipacion = async (driverId: string): Promise<
 
     const data = await response.json();
     const primeraTemporada = data.MRData.SeasonTable.Seasons[0].season;
-    return parseInt(primeraTemporada); // Retorna el primer año en que el piloto participó
+    return parseInt(primeraTemporada); 
   } catch (error) {
     console.error(`Error al obtener el primer año de participación para ${driverId}:`, error);
-    return 2000; // Retorna un valor por defecto si hay un error
+    return 2000;
   }
 };
 
@@ -103,7 +101,7 @@ export const obtenerResultadosCarrera = async (
     const urlDriverStandings = `https://ergast.com/api/f1/drivers/${driverId}/driverStandings.json`;
     let urlResultadosBase = `https://ergast.com/api/f1/drivers/${driverId}/results.json?limit=30&offset=`;
 
-    // Obtener los standings (puntos totales y campeonatos ganados)
+    // Obtener las clasificaciones
     const standingsResponse = await fetch(urlDriverStandings);
     if (!standingsResponse.ok) throw new Error("Error en driverStandings");
     const standingsData = await standingsResponse.json();
@@ -114,7 +112,7 @@ export const obtenerResultadosCarrera = async (
     let equipoId = "";
     let victorias = 0;
 
-    // Procesar standings
+    // Procesa las clasificaciones
     standingsLists.forEach((season: any) => {
       const driverStandings = season.DriverStandings[0];
 
@@ -144,7 +142,7 @@ export const obtenerResultadosCarrera = async (
       const raceResults = resultadosData?.MRData?.RaceTable?.Races || [];
 
       if (raceResults.length === 0) {
-        hasMoreResults = false; // Si no hay más carreras, salimos del bucle
+        hasMoreResults = false; 
       } else {
         // Procesamos las carreras obtenidas
         raceResults.forEach((race: any) => {
@@ -157,7 +155,7 @@ export const obtenerResultadosCarrera = async (
           }
         });
 
-        offset += 30; // Avanzamos al siguiente bloque de carreras
+        offset += 30;
       }
     }
 
@@ -170,7 +168,7 @@ export const obtenerResultadosCarrera = async (
 
 
 
-// Función para obtener el piloto desde tu API local
+// Función para obtener el piloto desde API local
 export const obtenerPilotoApiPorId = async (id: string) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/piloto/${id}`);
@@ -181,44 +179,43 @@ export const obtenerPilotoApiPorId = async (id: string) => {
     console.log(data);
     return data;
   } catch (error) {
-    throw new Error(error.message || 'Error desconocido al obtener el piloto');
+    throw new Error('Error desconocido al obtener el piloto');
   }
 };
 
-// Función para obtener los datos del piloto desde ambas APIs (externa y local)
+// Función para obtener los datos del piloto desde ambas APIs
 export const obtenerPilotoPorId = async (id: string): Promise<Piloto> => {
-  // Obtener los datos de la API externa (Ergast)
+  // Obtener los datos de la API externa
   const response = await fetch(`https://ergast.com/api/f1/drivers/${id}.json`);
   const data = await response.json();
   const pilotoData = data.MRData.DriverTable.Drivers[0];
 
-  // Obtener los datos de la API local (por ejemplo, imagen, biografía, etc.)
+  // Obtener los datos de la API local
   const datosPilotoApiLocal = await obtenerPilotoApiPorId(id);
 
-  // Obtener los resultados (victorias, puntos y campeonatos) a través de la nueva función
+  // Obtener los resultados a través de la función obtenerResultadosCarrera, que calcula todas las estadisticas de toda su carrera como piloto
   const { victorias, puntos, campeonatos } = await obtenerResultadosCarrera(id);
 
-  // Crear el objeto Piloto combinando ambos conjuntos de datos
   const piloto: Piloto = {
     id: pilotoData.driverId,
     nombre: `${pilotoData.givenName} ${pilotoData.familyName}`,
-    acronimo: pilotoData.code || "N/A", // Asignar "N/A" si no tiene código
+    acronimo: pilotoData.code || "N/A",
     edad: new Date().getFullYear() - new Date(pilotoData.dateOfBirth).getFullYear(),
     pais: pilotoData.nationality,
     fechaNacimiento: pilotoData.dateOfBirth,
     numeroPiloto: pilotoData.permanentNumber ? parseInt(pilotoData.permanentNumber) : 0,
-    puntos: puntos || 0, // Usamos los puntos obtenidos desde la API de resultados
-    equipoId: datosPilotoApiLocal.equipoId || "", // Si lo tienes
-    equipoActual: datosPilotoApiLocal.equipoActual || "", // Aquí añades el equipo actual
-    temporadas: datosPilotoApiLocal.temporadas || 0, // Extraído de la API local
-    campeonatos: campeonatos || 0, // Usamos los campeonatos obtenidos desde la API de resultados
-    victorias: victorias || 0, // Usamos las victorias obtenidas desde la API de resultados
-    podios: datosPilotoApiLocal.podios || 0, // De la API local
-    poles: datosPilotoApiLocal.poles || 0, // De la API local
-    vueltasRecord: datosPilotoApiLocal.fastLaps || 0, // De la API local
-    imagen: datosPilotoApiLocal.imagen || "", // Si tienes el campo imagen
-    biografia: datosPilotoApiLocal.biografia || "", // Si tienes el campo biografía
-    retirado: pilotoData.status === "Retired", // Asumiendo que la API externa tiene este campo
+    puntos: puntos || 0,
+    equipoId: datosPilotoApiLocal.equipoId || "",
+    equipoActual: datosPilotoApiLocal.equipoActual || "",
+    temporadas: datosPilotoApiLocal.temporadas || 0,
+    campeonatos: campeonatos || 0,
+    victorias: victorias || 0, 
+    podios: datosPilotoApiLocal.podios || 0,
+    poles: datosPilotoApiLocal.poles || 0,
+    vueltasRecord: datosPilotoApiLocal.fastLaps || 0,
+    imagen: datosPilotoApiLocal.imagen || "",
+    biografia: datosPilotoApiLocal.biografia || "",
+    retirado: pilotoData.status === "Retired", 
   };
 
   return piloto;
@@ -244,7 +241,6 @@ export const obtenerClasificacionPilotos = async (anio: number): Promise<Piloto[
     throw new Error(`No se encontraron datos para el año ${anio}.`);
   }
 
-  // Usamos Promise.all para manejar llamadas asincrónicas dentro del map
   const pilotos = await Promise.all(
     standings.map(async (piloto: any) => {
       const fechaNacimiento = piloto.Driver.dateOfBirth;
@@ -291,7 +287,6 @@ export const obtenerClasificacionPilotosDetallada = async (anio: number): Promis
     throw new Error(`No se encontraron datos para el año ${anio}.`);
   }
 
-  // Usamos Promise.all para manejar llamadas asincrónicas dentro del map
   const pilotos = await Promise.all(
     standings.map(async (piloto: any) => {
       const fechaNacimiento = piloto.Driver.dateOfBirth;
@@ -373,7 +368,6 @@ export const obtenerEquipoDePiloto = async (
 
     const data = await response.json();
 
-    // Si la respuesta contiene datos de constructores, devolvemos el id y nombre del equipo
     if (data.MRData.ConstructorTable.Constructors.length > 0) {
       const constructor = data.MRData.ConstructorTable.Constructors[0];
       return { id: constructor.constructorId, nombre: constructor.name };
@@ -382,12 +376,12 @@ export const obtenerEquipoDePiloto = async (
     }
   } catch (error) {
     console.error("Error en la solicitud de equipo", error);
-    return { id: "Desconocido", nombre: "Desconocido" }; // En caso de error, devolvemos "Desconocido"
+    return { id: "Desconocido", nombre: "Desconocido" }; 
   }
 };
 
 
-// Función auxiliar para calcular la edad
+// Función para calcular la edad
 const calcularEdad = (fechaNacimiento: string): number => {
   const fechaNac = new Date(fechaNacimiento);
   const diferenciaMs = Date.now() - fechaNac.getTime();

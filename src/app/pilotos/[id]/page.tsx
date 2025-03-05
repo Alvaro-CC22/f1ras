@@ -2,16 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { obtenerPilotoPorId, obtenerResultadosCarrera } from "../../servicios/pilotos"; // Asegúrate de que la ruta sea correcta
+import { obtenerPilotoPorId, obtenerResultadosCarrera } from "../../servicios/pilotos"; 
 import Navbar from "../../componentes/navbar";
-import { Piloto } from "../../lib/definitions"; // Importa la interfaz Piloto
+import { Piloto } from "../../lib/definitions";
 import React from "react";
 import { obtenerPaisDesdeNacionalidad } from "@/app/lib/utils";
 
 export default function PilotoPage({ params }: { params: Promise<{ id: string }> }) {
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
 
-  // Usamos React.use() para desempaquetar la promesa
   useEffect(() => {
     const fetchParams = async () => {
       const resolvedParams = await params;
@@ -24,11 +23,11 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!unwrappedParams) return; // Si aún no tenemos los parámetros, no hacemos nada
+    if (!unwrappedParams) return;
     const { id } = unwrappedParams;
 
     const cargarDatosPiloto = async () => {
-      const resultadosCarrera = await obtenerResultadosCarrera(id); // Ejemplo con el ID de Alonso
+      const resultadosCarrera = await obtenerResultadosCarrera(id); 
       console.log(resultadosCarrera);
 
       setLoading(true);
@@ -127,17 +126,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
             </tbody>
           </table>
 
-          <p><span style={{ fontFamily: 'titulos' }}>Edad<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span><span style={{ fontFamily: 'normal' }}> {piloto.edad}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>País<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{obtenerPaisDesdeNacionalidad(piloto.pais)}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Fecha de Nacimiento<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{new Date(piloto.fechaNacimiento).toLocaleDateString()}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Número Piloto<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.numeroPiloto}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Puntos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.puntos}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Temporadas<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.temporadas}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Campeonatos<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.campeonatos}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Victorias<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.victorias}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Podios<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.podios}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Poles<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.poles}</span></p>
-          <p><span style={{ fontFamily: 'titulos' }}>Vueltas Rápidas<span className="font-bold" style={{ fontFamily: 'normal' }}>:</span></span> <span style={{ fontFamily: 'normal' }}>{piloto.vueltasRecord}</span></p>
+          
         </div>
 
         {/* Columna derecha: Biografía */}
@@ -150,7 +139,7 @@ export default function PilotoPage({ params }: { params: Promise<{ id: string }>
             <div className="mt-4">
               <h3 className="text-lg" style={{ fontFamily: 'titulos' }}>Equipo Actual</h3>
               <img
-                src={`http://127.0.0.1:8000/uploads/${piloto.equipoActual}`} // Concatenamos la URL base con el nombre de la imagen
+                src={`http://127.0.0.1:8000/uploads/${piloto.equipoActual}`} // Concateno la URL base con el nombre de la imagen
                 alt={`Imagen del equipo de ${piloto.nombre}`}
                 className="h-48 object-cover rounded"
               />

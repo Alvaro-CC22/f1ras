@@ -68,12 +68,12 @@ class Circuito
 
     public function getVueltaRecord(): ?string
 {
-    return $this->vueltaRecord; // Ajusta el nombre de la variable correctamente
+    return $this->vueltaRecord;
 }
 
 public function setVueltaRecord(string $vueltaRecord): static
 {
-    $this->vueltaRecord = $vueltaRecord; // Asegúrate de usar el mismo nombre
+    $this->vueltaRecord = $vueltaRecord;
     return $this;
 }
 

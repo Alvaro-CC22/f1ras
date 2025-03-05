@@ -15,11 +15,11 @@ class PilotoApiController extends AbstractController
     #[Route('/api/pilotos', name: 'api_pilotos', methods: ['GET'])]
     public function getPilotos(EntityManagerInterface $entityManager): JsonResponse
     {
-        // Obtener todos los pilotos desde la base de datos
+        
         $pilotos = $entityManager->getRepository(Piloto::class)->findAll();
 
         if (!$pilotos) {
-            // Si no hay pilotos en la base de datos, devolver un error 404
+           
             throw new NotFoundHttpException('No hay pilotos disponibles.');
         }
 
@@ -37,7 +37,6 @@ class PilotoApiController extends AbstractController
             ];
         }
 
-        // Devolver la respuesta en formato JSON
         return new JsonResponse($pilotosArray);
     }
 
@@ -45,11 +44,9 @@ class PilotoApiController extends AbstractController
     #[Route('/api/piloto/{id}', name: 'api_piloto', methods: ['GET'])]
     public function getPiloto(string $id, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Buscar el piloto por ID
         $piloto = $entityManager->getRepository(Piloto::class)->find($id);
 
         if (!$piloto) {
-            // Si el piloto no existe, devolver un error 404
             throw new NotFoundHttpException('Piloto no encontrado.');
         }
 

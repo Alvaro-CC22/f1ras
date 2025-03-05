@@ -31,10 +31,10 @@ class PilotoController extends AbstractController
 
                 try {
                     $imagenFile->move(
-                        $this->getParameter('imagenes_dir'), // Carpeta donde se guardarán las imágenes
+                        $this->getParameter('imagenes_dir'), 
                         $nuevoNombre
                     );
-                    $piloto->setImagen($nuevoNombre); // Guardamos el nombre de la imagen del piloto en la base de datos
+                    $piloto->setImagen($nuevoNombre); 
                 } catch (FileException $e) {
                     $this->addFlash('error', 'No se pudo subir la imagen del piloto.');
                 }
@@ -49,10 +49,10 @@ class PilotoController extends AbstractController
 
                 try {
                     $EquipoFile->move(
-                        $this->getParameter('imagenes_dir'), // Carpeta donde se guardarán las imágenes del equipo
+                        $this->getParameter('imagenes_dir'), 
                         $nuevoNombreEquipo
                     );
-                    $piloto->setEquipoActual($nuevoNombreEquipo); // Guardamos el nombre de la imagen del equipo en la base de datos
+                    $piloto->setEquipoActual($nuevoNombreEquipo); 
                 } catch (FileException $e) {
                     $this->addFlash('error', 'No se pudo subir la imagen del equipo.');
                 }
@@ -89,7 +89,7 @@ class PilotoController extends AbstractController
             /** @var UploadedFile $equipoActualFile */
             $equipoActualFile = $form->get('EquipoActual')->getData();
 
-            // Procesar la imagen del piloto
+            
             if ($imagenFile) {
                 $nuevoNombre = uniqid().'.'.$imagenFile->guessExtension();
                 try {
@@ -103,7 +103,7 @@ class PilotoController extends AbstractController
                 }
             }
 
-            // Procesar la imagen del equipo actual
+            
             if ($equipoActualFile) {
                 $nuevoNombreEquipo = uniqid().'.'.$equipoActualFile->guessExtension();
                 try {
@@ -111,7 +111,7 @@ class PilotoController extends AbstractController
                         $this->getParameter('imagenes_dir'),
                         $nuevoNombreEquipo
                     );
-                    $piloto->setEquipoActual($nuevoNombreEquipo);  // Guardamos el nombre del archivo de la imagen
+                    $piloto->setEquipoActual($nuevoNombreEquipo);  
                 } catch (FileException $e) {
                     $this->addFlash('error', 'No se pudo subir la imagen del equipo.');
                 }

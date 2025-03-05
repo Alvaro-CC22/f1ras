@@ -33,7 +33,7 @@ const nacionalidadAPais: Record<string, string> = {
 };
   
   export function obtenerPaisDesdeNacionalidad(nacionalidad: string): string {
-    return nacionalidadAPais[nacionalidad] || nacionalidad; // Devuelve la nacionalidad como fallback
+    return nacionalidadAPais[nacionalidad] || nacionalidad; 
   }
   
   export const obtenerColorPorPosicion = (posicion: number) => {

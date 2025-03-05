@@ -11,7 +11,6 @@ const Equipos = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [anio, setAnio] = useState<number>(2024);
 
-  // Obtener todos los equipos
   const fetchEquipos = async () => {
     const url = `https://ergast.com/api/f1/${anio}/constructors.json`;
     
@@ -58,7 +57,6 @@ const Equipos = () => {
     }
   };
 
-  // Usar useEffect para cargar los datos que recarga cuando al cambiar el año
   useEffect(() => {
     fetchEquipos();
   }, [anio]); 
